@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Services - The Best Garden</title>
+        <link rel="stylesheet" href="/public/styles_s.css" type="text/css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <nav class ="navbar">
+                <a href="#" class="nav-branding">  <img src="/public/photos/logo.png" alt="logo" width="90" height="95" ></a>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/views/main.html" class = "nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/about.html" class = "nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/services.html" class = "active">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/projects.html" class = "nav-link">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/contact.html" class = "nav-link">Contact</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+        <script> 
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+    
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        })
+        document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+        }))
+        </script>
+
+        <div class="container">
+            <section class="header-top" >
+                <div class="header-title">
+                    <h5> These Are My </h5>
+                    <h1> Services</h1>
+                    <p class="description"></p>
+                </div>
+            </section>
+            <section class="-services">
+                <article class="design">
+                    <h5 class="title">LANDSCAPING</h5>
+                    <img src="/public/photos/album6/1.jpg" alt="img1" style="width: 100%;">
+                </article>
+                <article class="care">
+                    <h5 class="title">HEDGE MANAGEMENT</h5>
+                    <img src="/public/photos/album0/4.jpeg" alt="img1" style="width: 100%;">
+                </article>
+                <article class="irrigation">
+                    <h5 class="title">SPRING & FALL<br> CLEAN-UPS </h5>
+                    <img src="/public/photos/album1/4.jpeg" alt="img1" style="width: 100%;">
+                </article>
+            </section>
+            <section class="header-top">
+                <div class="header-title">
+                    <h5> More Services </h5>
+                    <h1> We Use Plants to Bring Life</h1>
+                    <p class="description"></p>
+                </div>
+            </section>
+            <section class="list">
+                <li class="r1">
+                    <i class="fa-sharp fa-solid fa-circle-check" aria-hidden="true">
+                        <span class="paragraph">GARDENING</span>
+                    </i>
+                    <i class="fa-sharp fa-solid fa-circle-check">
+                        <span class="paragraph">WEEDING & PRUNNING</span>
+                    </i>
+                </li>
+                <li class="r2">
+                    <i class="fa-sharp fa-solid fa-circle-check">
+                        <span class="paragraph">ALL GENERAL GARDEN SERVICES</span>
+                    </i>
+                    <i class="fa-sharp fa-solid fa-circle-check" aria-hidden="true">
+                        <span class="paragraph">MOWING & FENCING</span>
+                    </i>
+                </li>
+                <li class="r3"><br>
+                    <i class="fa-sharp fa-solid fa-circle-check" aria-hidden="true">
+                        <span class="paragraph">OTHER JOBS REQUESTED</span>
+                    </i>
+                </li>
+            </section>
+        </div>
+        
+        <footer>
+            <div class="footer">
+                <div class="primary-footer">
+                <div class="contact-info">
+                    <h2>Contact info</h2>
+                    <p>123 Fifth Avenue, New York,</p>
+                    <p>NY 10160, United States.</p>
+                    <p>+1 910-626-85255</p>
+                    <p>contact@garden.com</p>
+                    <p>info@garden.com</p>
+                </div>
+                <div class="quick-links" >
+                    <h2> Quick Links</h2>
+                    <a href="/about">
+                        <div class="quick-links">About </div>
+                    </a>
+                    <a href="/services">
+                        <div class="quick-links">Services </div>
+                    </a>
+                    <a href="/projects">
+                        <div class="quick-links">Projects </div>
+                    </a>
+                    <a href="/contact">
+                        <div class="quick-links">Contact </div>
+                    </a>
+                </div>
+            
+                    <div class="our-services" >
+                    <h2> Our Services </h2>
+                    <a href="/services">
+                        <div class="our-services">Landsacpe Design </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-services">Garden Care </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-services">Planting </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-servicess">Irrigation </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-servicess">Drainage </div>
+                    </a>
+                </div>
+            
+                <div class="description">
+                    <img src="/public/photos/logo.png" alt="logo" width="210" height="215">
+                </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

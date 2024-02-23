@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="/public/styles_c.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+        <nav class ="navbar">
+            <a href="#" class="nav-branding">  <img src="/public/photos/logo.png" alt="logo" width="90" height="95" ></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/views/main.html" class = "nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/about.html" class = "nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/services.html" class = "nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/projects.html" class = "nav-link">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/contact.html" class = "active">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <script> 
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    })
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }))
+    </script>
+    <div class="container">
+      <span class="big-circle"></span>
+      <img src="/public/photos/img/shape.png" class="square" alt="" />
+      <section class="form">
+        <div class="contact-info">
+          <h3 class="title">Let's get in touch</h3>
+          <p class="text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
+            dolorum adipisci recusandae praesentium dicta!
+          </p>
+
+          <div class="info">
+            <div class="information">
+              <img src="/public/photos/img/location.png" class="icon" alt="" />
+              <p>92 Cherry Drive Uniondale, NY 11553</p>
+            </div>
+            <div class="information">
+              <img src="/public/photos/img/email.png" class="icon" alt="" />
+              <p>lorem@ipsum.com</p>
+            </div>
+            <div class="information">
+              <img src="/public/photos/img/phone.png" class="icon" alt="" />
+              <p>123-456-789</p>
+            </div>
+          </div>
+
+          <div class="social-media">
+            <p>Connect with us :</p>
+            <div class="social-icons">
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form id = "contactForm " autocomplete="off">
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" name="name" class="input" />
+              <label for="">Username</label>
+              <span>Username</span>
+            </div>
+            <div class="input-container">
+              <input type="email" name="email" class="input" />
+              <label for="">Email</label>
+              <span>Email</span>
+            </div>
+            <div class="input-container">
+              <input type="tel" name="phone" class="input" />
+              <label for="">Phone</label>
+              <span>Phone</span>
+            </div>
+            <div class="input-container textarea">
+              <textarea name="message" class="input"></textarea>
+              <label for="">Message</label>
+              <span>Message</span>
+            </div>
+            <input type="submit" value="Send" class="btn" />
+          </form>
+        </div>
+      </section>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll(".input");
+
+        function focusFunc() {
+            let parent = this.parentNode;
+            parent.classList.add("focus");
+        }
+
+        function blurFunc() {
+            let parent = this.parentNode;
+            if (this.value == "") {
+                parent.classList.remove("focus");
+            }
+        }
+
+        inputs.forEach((input) => {
+            input.addEventListener("focus", focusFunc);
+            input.addEventListener("blur", blurFunc);
+        });
+    </script>
+
+  <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("518QcRpBbQIEfIY0f"); // Replace with your EmailJS user ID
+
+      document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        var form = event.target;
+
+        var name = form.elements.name.value;
+        var email = form.elements.email.value;
+        var phone = form.elements.phone.value;
+        var message = form.elements.message.value;
+
+        var templateParams = {
+          from_name: name,
+          from_email: email,
+          phone: phone,
+          message: message
+        };
+
+        emailjs.send("blade_on_lawn", "template_lav28nj", templateParams)
+          .then(function(response) {
+            console.log("Email sent successfully", response);
+            alert("Email sent successfully!");
+          })
+          .catch(function(error) {
+            console.log("Failed to send email", error);
+            alert("Failed to send email. Please try again later.");
+          });
+      });
+    })();
+  </script>
+    <footer>
+        <div class="footer">
+            <div class="primary-footer">
+            <div class="contact_info">
+                <h2>Contact info</h2>
+                <p>123 Fifth Avenue, New York,</p>
+                <p>NY 10160, United States.</p>
+                <p>+1 910-626-85255</p>
+                <p>contact@garden.com</p>
+                <p>info@garden.com</p>
+            </div>
+            <div class="quick-links" >
+                <h2> Quick Links</h2>
+                <a href="/about">
+                    <div class="quick-links">About </div>
+                </a>
+                <a href="/services">
+                    <div class="quick-links">Services </div>
+                </a>
+                <a href="/projects">
+                    <div class="quick-links">Projects </div>
+                </a>
+                <a href="/contact">
+                    <div class="quick-links">Contact </div>
+                </a>
+            </div>
+        
+                <div class="our-services" >
+                <h2> Our Services </h2>
+                <a href="/services">
+                    <div class="our-services">Landsacpe Design </div>
+                </a>
+                <a href="/services">
+                    <div class="our-services">Garden Care </div>
+                </a>
+                <a href="/services">
+                    <div class="our-services">Planting </div>
+                </a>
+                <a href="/services">
+                    <div class="our-servicess">Irrigation </div>
+                </a>
+                <a href="/services">
+                    <div class="our-servicess">Drainage </div>
+                </a>
+            </div>
+        
+             <div class="description">
+                <img src="/public/photos/logo.png" alt="logo" width="210" height="215">
+            </div>
+            </div>
+        </div>
+    </footer>
+  </body>
+</html>
+ 

@@ -1,0 +1,105 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root{
+    --global-color-0: #40bf4f;
+    --global-color-1: #0d3c00;;
+    --global-color-2: #0d3c00;
+    --global-color-3: #5a5a5a;
+    --global-color-4: #f2f2f2;
+    --global-color-5: #ffffff;
+    --global-color-6: #f3f2ed;
+    --global-color-7: #2a2a2a;
+    --global-color-8:rgba(64,191,79,0.15);
+}
+header{
+    background-color: var(--global-color-4);
+}
+li{
+    list-style: none;
+}
+a{
+    color: var(--global-color-7);
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+}
+.navbar{
+    min-height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+.nav-menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+}
+.nav-branding{
+    font-size: 16px;
+}
+.nav-link{
+    transition: 0.4s ease;
+}
+.nav-link:hover{
+    color: var(--global-color-0);
+}
+.nav-link:active{
+    color: var(--global-color-0);
+}
+.hamburger{
+    display: none;
+    cursor: pointer;
+}
+.bar{
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--global-color-0);
+}
+@media(max-width:768px){
+    .hamburger{
+        display: block;
+    }
+    .hamburger.active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1){
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3){
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        gap: 0;
+        font-size: 14px;
+        flex-direction: column;
+        background-color: var(--global-color-5);
+        width: 100%;
+        text-align: center;
+        color: var(--global-color-7);
+        transition: 0.3s;
+        border: 1px;
+        border-radius: 1px;
+        border-bottom-width: 0.1px;
+        border-style: solid;
+        border-color: #dddddd;
+    }
+    .nav-item{
+        margin: 16px 0;
+    }
+
+    .nav-menu.active{
+        left: 0;
+        z-index: 1;
+    }
+}

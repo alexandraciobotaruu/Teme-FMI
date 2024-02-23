@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>About - The Best Garden</title>
+        <link rel="stylesheet" href="/public/styles_a.css" type="text/css">
+    </head>
+    <body>
+        <header>
+            <nav class ="navbar">
+                <a href="#" class="nav-branding">  <img src="/public/photos/logo.png" alt="logo" width="90" height="95" ></a>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/views/main.html" class = "nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/about.html" class = "active">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/services.html" class = "nav-link">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/projects.html" class = "nav-link">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/views/contact.html" class = "nav-link">Contact</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </header>
+        <script> 
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+    
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        })
+        document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+        }))
+        </script>
+
+        <div class="container">
+            <section class="header-top">
+                <div class="header-title">
+                    <h5>A few Words </h5>
+                    <h1> About Me</h1>
+                </div>
+            </section>
+            <section class="about">
+                    <h5 class="-about">Welcome to<br><span>Blade on lawn</span></h5>
+                    <article class="p1">
+                        <p> I am a passionate individual who is dedicated to helping you create and maintain the garden of your dreams. My company was founded with the belief that gardening is not only a hobby, but a way of life. I understand the joy that comes from watching your garden flourish, and I strive to make that joy accessible to everyone.
+                            At The Gardener, I offer a range of services designed to make your gardening experience as easy and enjoyable as possible. Whether you need help with landscaping, planting, or maintenance, I have the expertise to help you achieve your goals. I work closely with my clients to ensure that their vision for their garden is realized, and I am committed to providing personalized, professional service every step of the way.</p>
+                    </article>
+                    <article class="p2">
+                        <p>As an experienced and skilled gardener, I am passionate about my work and dedicated to providing the highest quality service. I use only the best tools and techniques to ensure that your garden is healthy, beautiful, and thriving. Whether you are looking to create a serene outdoor oasis, a thriving vegetable garden, or simply need help with basic maintenance, I am here to help.
+                        I believe that gardening is not only good for the environment, but good for the soul. I am committed to promoting sustainable and eco-friendly practices in all aspects of my work, and I strive to help my clients create gardens that are not only beautiful, but also beneficial to the planet.
+                        Thank you for considering The Gardener for your gardening needs. I look forward to working with you to create the garden of your dreams! </p>
+                    </article>
+
+            </section>
+        </div>
+        <footer>
+            <div class="footer">
+                <div class="primary-footer">
+                <div class="contact-info">
+                    <h2>Contact info</h2>
+                    <p>123 Fifth Avenue, New York,</p>
+                    <p>NY 10160, United States.</p>
+                    <p>+1 910-626-85255</p>
+                    <p>contact@garden.com</p>
+                    <p>info@garden.com</p>
+                </div>
+                <div class="quick-links" >
+                    <h2> Quick Links</h2>
+                    <a href="/about">
+                        <div class="quick-links">About </div>
+                    </a>
+                    <a href="/services">
+                        <div class="quick-links">Services </div>
+                    </a>
+                    <a href="/projects">
+                        <div class="quick-links">Projects </div>
+                    </a>
+                    <a href="/contact">
+                        <div class="quick-links">Contact </div>
+                    </a>
+                </div>
+            
+                    <div class="our-services" >
+                    <h2> Our Services </h2>
+                    <a href="/services">
+                        <div class="our-services">Landsacpe Design </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-services">Garden Care </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-services">Planting </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-servicess">Irrigation </div>
+                    </a>
+                    <a href="/services">
+                        <div class="our-servicess">Drainage </div>
+                    </a>
+                </div>
+            
+                <div class="description">
+                    <img src="/public/photos/logo.png" alt="logo" width="210" height="215">
+                </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

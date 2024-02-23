@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project - The Best Garden</title>
+    <link rel="stylesheet" type="text/css" href="/public/styles_p.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="/views/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav class ="navbar">
+            <a href="#" class="nav-branding">  <img src="/public/photos/logo.png" alt="logo" width="90" height="95" ></a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="/views/main.html" class = "nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/about.html" class = "nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/services.html" class = "nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/projects.html" class = "active">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/views/contact.html" class = "nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <script> 
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    })
+    document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }))
+    </script>
+
+    <div class ="container">
+        <div class="content">
+            <section class="header-top">
+                <div class="header-title">
+                    <h1> Projects</h1>
+                </div>
+            </section>
+            <section class="gallery" id="gallery6">
+                <div class="wrapper">
+                  <i id="left6" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album6/1.jpg" alt="img" draggable="false">
+                    <img src="/public/photos/album6/2.jpg" alt="img" draggable="false">
+                    <img src="/public/photos/album6/3.jpg" alt="img" draggable="false">
+                    <img src="/public/photos/album6/4.jpg" alt="img" draggable="false">
+                    <img src="/public/photos/album6/5.jpg" alt="img" draggable="false">
+                  </div>
+                  <i id="right6" class="fa-solid fa-chevron-right"></i>
+                </div>
+            </section>
+            <section class="gallery" id="gallery5">
+                <div class="wrapper">
+                  <i id="left5" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album5/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/7.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album5/8.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right5" class="fa-solid fa-chevron-right"></i>
+                </div>
+            </section>
+            <section class="gallery" id="gallery4">
+                <div class="wrapper">
+                  <i id="left4" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album4/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/7.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album4/8.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right4" class="fa-solid fa-chevron-right"></i>
+                </div>
+            </section>
+            <section class="gallery" id="gallery3">
+                <div class="wrapper">
+                  <i id="left3" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album3/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album3/7.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right3" class="fa-solid fa-chevron-right"></i>
+                </div>
+              </section>
+              <section class="gallery" id="gallery2">
+                <div class="wrapper">
+                  <i id="left2" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album2/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/7.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/8.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/9.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/10.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album2/11.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right2" class="fa-solid fa-chevron-right"></i>
+                </div>
+              </section>
+              <section class="gallery" id="gallery1">
+                <div class="wrapper">
+                  <i id="left1" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album1/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/7.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album1/8.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right1" class="fa-solid fa-chevron-right"></i>
+                </div>
+              </section>
+
+              <section class="gallery" id="gallery0">
+                <div class="wrapper">
+                  <i id="left0" class="fa-solid fa-chevron-left"></i>
+                  <div class="carousel">
+                    <img src="/public/photos/album0/1.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/2.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/3.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/4.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/5.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/6.jpeg" alt="img" draggable="false">
+                    <img src="/public/photos/album0/7.jpeg" alt="img" draggable="false">
+                  </div>
+                  <i id="right0" class="fa-solid fa-chevron-right"></i>
+                </div>
+              </section>
+        </div>
+   </div>
+   <footer>
+    <div class="footer">
+        <div class="primary-footer">
+        <div class="contact_info">
+            <h2>Contact info</h2>
+            <p>123 Fifth Avenue, New York,</p>
+            <p>NY 10160, United States.</p>
+            <p>+1 910-626-85255</p>
+            <p>contact@garden.com</p>
+            <p>info@garden.com</p>
+        </div>
+        <div class="quick-links" >
+            <h2> Quick Links</h2>
+            <a href="/about">
+                <div class="quick-links">About </div>
+            </a>
+            <a href="/services">
+                <div class="quick-links">Services </div>
+            </a>
+            <a href="/projects">
+                <div class="quick-links">Projects </div>
+            </a>
+            <a href="/contact">
+                <div class="quick-links">Contact </div>
+            </a>
+        </div>
+    
+            <div class="our-services" >
+            <h2> Our Services </h2>
+            <a href="/services">
+                <div class="our-services">Landsacpe Design </div>
+            </a>
+            <a href="/services">
+                <div class="our-services">Garden Care </div>
+            </a>
+            <a href="/services">
+                <div class="our-services">Planting </div>
+            </a>
+            <a href="/services">
+                <div class="our-servicess">Irrigation </div>
+            </a>
+            <a href="/services">
+                <div class="our-servicess">Drainage </div>
+            </a>
+        </div>
+    
+         <div class="description">
+            <img src="/public/photos/logo.png" alt="logo" width="210" height="215">
+        </div>
+        </div>
+    </div>
+</footer>
+   
+
+   
+</body>
+</html>
