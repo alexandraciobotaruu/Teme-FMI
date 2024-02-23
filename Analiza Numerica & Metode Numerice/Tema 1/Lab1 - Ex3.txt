@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    rezultat = x ** 2 - 3
+    return rezultat
+
+a = 1
+b = 2
+x= np.linspace (a, b)
+y = f(x)
+
+plt.plot (x, y, c = "b", linewidth = 2)
+plt.plot (x, np.zeros(len(x)), c = 'r', linewidth = 2)
+
+def metoda_bisectiei(f, a, b, ITMAX, TOL, OPT = 1):
+  if f(a) * f(b) >= 0:
+    print("Functia nu respecta conditiile metodei bisectiei.")
+    return None, None
+
+  x_prev = None
+
+  for i in range (ITMAX):
+    x = (a + b)/2
+
+    if OPT == 1 and np.abs(b - a) <= TOL:
+      if f(a) * f(x) < 0:
+        b = x
+      else:
+        a = x
+        x_prev = x
+    if OPT == 2 and x_prev is not None and np.abs((x - x_prev))/np.abs(x_prev) <= TOL:
+      if f(a) * f(x) < 0:
+        b = x
+      else:
+        a = x
+        x_prev = x
+    if OPT == 3 and np.abs(f(x)) <= TOL:
+      if f(a) * f(x) < 0:
+        b = x
+      else:
+        a = x
+        x_prev = x
+
+  return x, i
+  return None, ITMAX
+
+
+
+ITMAX = 10 ** 4
+TOL = 10 ** (-8)
+OPT = 1
+
+solutie, iteratii = metoda_bisectiei(f, a, b, ITMAX, TOL, OPT)
+if solutie is not None:
+    print("Soluția numerică este:", solutie)
+    print("Numărul de iterații necesare:", iteratii)
+else:
+  print("Metoda bisectiei nu a convers in ", ITMAX, "iteratii")
+

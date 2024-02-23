@@ -1,0 +1,76 @@
+# a)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(3)
+
+def f(x):
+    return x ** 3 - 4 * x ** 2 + 5 * x - 2
+
+def df(x):
+    return 3 * x ** 2 - 8 * x + 5
+
+def phi(x):
+    return x - f(x)/df(x)
+a = 0
+b = 1.75
+x = np.linspace( a , b )
+y = f(x)
+axs[0].plot( x , y , c = 'r' , linewidth = 2)
+
+y = df(x)
+axs[1].plot( x , y , c = 'b' , linewidth = 2)
+
+y = phi(x)
+axs[2].plot( x , y , c = 'y' , linewidth = 2)
+
+def Aitken( f , phi , x0 , TOL , ITMAX):
+    x1 , x2 = phi(x0) , phi(phi(x0)) # am calculat fi cu formula de mai sus
+    for n in range ( 2 , ITMAX ):
+        xc = ( x2 * x0 - x1 ** 2) / (x2 - 2 * x1 + x0)
+        if np.abs(f(xc)) >= TOL and np.abs(x2 - x1)/x1 >= TOL:
+            x2 , x1 , x0 = phi(x2) , x2 , x1
+            print("n = {:d}| xc = {:.6f} | |f(xc) = {:.2e}".format(n,xc,np.abs(f(xc))))
+        else:
+            break
+Aitken(f,phi,0,10**(-10),20)
+
+
+# b)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, axs = plt.subplots(3)
+
+def f(x):
+    return x ** 3 - 4 * x ** 2 + 5 * x - 2
+
+def df(x):
+    return 3 * x ** 2 - 8 * x + 5
+
+def phi(x):
+    return x - f(x)/df(x)
+a = 0
+b = 1.75
+x = np.linspace( a , b )
+y = f(x)
+axs[0].plot( x , y , c = 'r' , linewidth = 2)
+
+y = df(x)
+axs[1].plot( x , y , c = 'b' , linewidth = 2)
+
+y = phi(x)
+axs[2].plot( x , y , c = 'y' , linewidth = 2)
+
+def Steffensen( f , phi , x , TOL , ITMAX ):
+    xc3n , xc3n1 , xc3n2 =  phi(phi(x)) , phi(x) , x
+    for n in range (1,ITMAX):
+        xc3n = (xc3n * xc3n2 - xc3n1 ** 2)/(xc3n - 2 * xc3n1 + xc3n2)
+        if np.abs(f(xc3n)) >= TOL and np.abs(xc3n - xc3n1)/xc3n1 >= TOL:
+            xc3n , xc3n1 , xc3n2 = phi(phi(xc3n)) , phi(xc3n) , xc3n
+            print("n = {:d}| xc3n = {:.6f} | |f(xc3n) = {:.2e}".format(n,xc3n,np.abs(f(xc3n))))
+        else:
+            break
+Steffensen( f , phi , 0 , 10**(-10) , 20)

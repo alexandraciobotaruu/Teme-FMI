@@ -1,0 +1,44 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    return np.e ** (2 * x)
+
+a = -1
+b = 1
+n = 5
+X = np.linspace(a, b, n)
+
+def df(x):
+    return 2 * np.e ** (2 * x)
+
+def SplinePatratic(f, a, b, n, df, x):
+    X = np.linspace(a, b, n + 1)
+    h = np.diff(X)
+    Y = f(X)
+    A = Y
+    B = [df(X[0])]
+    C = []
+    for j in range(n - 1):
+        bj = 2 * (Y[j + 1] - Y[j]) / h[j] - B[j]
+        B.append(bj)
+        cj = (Y[j + 1] - Y[j] - B[j] * h[j]) / (h[j] ** 2)
+        C.append(cj)
+
+    cj = (Y[n] - Y[n - 1] - B[n - 1] * h[n - 1]) / (h[n - 1] ** 2)
+    C.append(cj)
+
+    for j in range(n):
+        if x >= X[j] and x < X[j + 1]:
+            return A[j] + B[j] * (x - X[j]) + C[j] * ((x - X[j]) ** 2)
+
+t = np.linspace(-1, 1)
+y = f(t)
+
+plt.plot(t, y, c='b')
+for i in range(1, 6):
+    plt.figure(2 * i - 1)
+    plt.plot(t, [f(x) for x in t], 'm')
+    plt.plot(t, [SplinePatratic(f, -1, 1, i, df, x) for x in t], 'b')
+
+plt.show()

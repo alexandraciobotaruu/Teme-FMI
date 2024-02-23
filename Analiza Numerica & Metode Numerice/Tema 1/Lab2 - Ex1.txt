@@ -1,0 +1,140 @@
+import numpy as np
+import matplotlib.pyplot as plt
+# phi 1
+fig, axs = plt.subplots(3)
+def f(x):
+    rezultat = x ** 3 + 4 * x ** 2 - 10
+    return rezultat
+def f1(x):
+    rezultat = -1 * x ** 3 - 4 * x ** 2 + x + 10
+    return rezultat
+def f2(x):
+    rezultat = -3 * x ** 2 - 8 * x  + 1
+    return rezultat
+a = 1
+b = 2
+x = np.linspace( a , b )
+
+y = f(x)
+axs[0].plot( x , y , c = 'b' , linewidth = 2)
+
+y = f1(x)
+axs[1].plot( x , y , c = 'g' , linewidth = 2)
+
+y = f2(x)
+axs[2].plot( x , y , c = 'r' , linewidth = 2)
+
+def MetPunctFix(f1,x,N):
+    for _ in range(N):
+        x = f1(x)
+        print(x,f(x))
+    return x
+
+MetPunctFix(f1,1,5)
+
+
+#EX1 pt phi2
+import numpy as np
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(3)
+def f(x):
+    rezultat = x ** 3 + 4 * x ** 2 - 10
+    return rezultat
+def f1(x):
+    rezultat = np.sqrt((10/x)- 4 * x)
+    return rezultat
+def f2(x):
+    rezultat = (1/(2 * np.sqrt((10/x)- 4 * x)) * (-10/x ** 2 - 4))
+    return rezultat
+a = 1
+b = 2
+x = np.linspace( a , b )
+
+y = f(x)
+axs[0].plot( x , y , c = 'b' , linewidth = 2)
+
+y = f1(x)
+axs[1].plot( x , y , c = 'g' , linewidth = 2)
+
+y = f2(x)
+axs[2].plot( x , y , c = 'r' , linewidth = 2)
+
+def MetPunctFix(f1,x,N):
+    for _ in range(N):
+        x = f1(x)
+        print(x,f(x))
+    return x
+
+MetPunctFix(f1,1,5)
+
+
+#EX1 pt phi3
+import numpy as np
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(3)
+def f(x):
+    rezultat = x ** 3 + 4 * x ** 2 - 10
+    return rezultat
+def f1(x):
+    rezultat = 1/2 * (np.sqrt(10 - x ** 3))
+    return rezultat
+def f2(x):
+    rezultat = (-3 * x ** 2)/(4 * np.sqrt(10 - x**3))
+    return rezultat
+a = 1
+b = 2
+x = np.linspace( a , b )
+
+y = f(x)
+axs[0].plot( x , y , c = 'b' , linewidth = 2)
+
+y = f1(x)
+axs[1].plot( x , y , c = 'g' , linewidth = 2)
+
+y = f2(x)
+axs[2].plot( x , y , c = 'r' , linewidth = 2)
+
+def MetPunctFix(f1,x,N):
+    for _ in range(N):
+        x = f1(x)
+        print(x,f(x))
+    return x
+
+MetPunctFix(f1,1,5)
+
+
+
+#EX1 pt phi4
+import numpy as np
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(3)
+def f(x):
+    rezultat = x ** 3 + 4 * x ** 2 - 10
+    return rezultat
+def f1(x):
+    rezultat = np.sqrt(10/(x + 4))
+    return rezultat
+def f2(x):
+    rezultat = - np.sqrt(10)/(2 * (x + 4)**(3/2))
+    return rezultat
+a = 1
+b = 2
+x = np.linspace( a , b )
+
+y = f(x)
+axs[0].plot( x , y , c = 'b' , linewidth = 2)
+
+y = f1(x)
+axs[1].plot( x , y , c = 'g' , linewidth = 2)
+
+y = f2(x)
+axs[2].plot( x , y , c = 'r' , linewidth = 2)
+
+def MetPunctFix(f1,x,N):
+    for _ in range(N):
+        x = f1(x)
+        print(x,f(x))
+    return x
+
+MetPunctFix(f1,1,20)
+

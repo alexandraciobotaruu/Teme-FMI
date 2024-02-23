@@ -1,0 +1,57 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    return np.cos(x) - x
+
+a = 0
+b = np.pi/2
+x = np.linspace(a, b)
+y = f(x)
+
+plt.plot(x, y, c='b', linewidth=2)
+plt.plot(x, np.zeros(len(x)), c='r', linewidth=2)
+
+def Secantaf(f, x0, x1, TOL):
+    aprox = [x0, x1]
+    while True:
+        f0 = f(x0)
+        f1 = f(x1)
+
+        x2 = x1 - f1 * ((x1 - x0) / (f1 - f0))
+        x0 = x1
+        x1 = x2
+        aprox.append(x2)
+        err = abs((x2 - x1) / x1)
+        if abs(f(x2)) <= TOL:
+            break
+    return aprox
+
+def MetPozFalseF(f,x0, x1, N):
+  aprox_f = [x0, x1]
+  x2 = x1 - f(x1) * ((x1- x0)/f(x1)- f(x0))
+  err = []
+
+  while True:
+    if f(x1) * f(x2) < 0:
+      x2, x1, x0 = x2- f(x2) * ((x2-x1)/(f(x2)- f(x1))), x2, x1
+      aprox_f.append(x2)
+    else:
+      x2, x1, x0 = x2- f(x2) * ((x2-x0)/(f(x2)- f(x0))), x2, x0
+      aprox_f.append(x2)
+    err.append(np.abs((x1- x0)/ x0))
+    if abs(f(x2)) <= TOL:
+            break
+  return aprox_f
+
+TOL = 10**(-8)
+aprox = Secantaf(f, 0, np.pi/2, TOL)
+aprox_f = MetPozFalseF(f, 0, np.pi/2, TOL)
+print("Aproximările găsite de metoda secantei:", aprox)
+print("Aproximările găsite de metoda pozitiei false:", aprox_f)
+
+aprox = Secantaf(f, np.pi/2, 0, TOL)
+aprox_f = MetPozFalseF(f, np.pi/2, 0, TOL)
+print("Aproximările găsite de metoda secantei 2:", aprox)
+print("Aproximările găsite de metoda pozitiei false 2:", aprox_f)
+

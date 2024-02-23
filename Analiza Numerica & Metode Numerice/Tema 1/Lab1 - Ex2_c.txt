@@ -1,0 +1,33 @@
+#c
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def g(x):
+  return np.exp(-x/2)*(x**2 + 2*x - 8)
+
+def Bisectie(a, b):
+  iter = 1
+  x_n = (a+b)/2
+  while (abs(g(x_n))> 10 ** (-5)):
+    if g(a)*g(x_n) < 0:
+      b = x_n
+    else:
+      a = x_n
+    iter = iter + 1
+    x_n = (a + b)/ 2
+  print("iteratii:")
+  print (iter)
+  return x_n
+
+print(Bisectie(-3, 3))
+err_a = abs(2 - Bisectie(-3, 3))
+print(err_a)
+plt.scatter(err_a, g(err_a))
+plt.scatter( Bisectie(-3, 3), g( Bisectie(-3, 3)))
+
+err_r = err_a/abs(2)
+print(err_r)
+plt.scatter(err_r, g(err_r))
+plt.show()
+
