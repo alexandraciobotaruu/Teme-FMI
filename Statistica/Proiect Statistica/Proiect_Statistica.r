@@ -1,1469 +1,1077 @@
-# 
-# # EXERCITIUL I - 1.
-# set.seed(311)
-# # Definim parametrii pentru distributiile de probabilitate
-# n <- 10  # Numarul de incercari pentru distributia binomiala si geometrica
-# p_binomial <- 0.5  # Probabilitatea de succes pentru distributia binomial
-# p_geometric <- 0.3  # probabilitatea de succes pentru distributia geometrica
-# lambda_poisson <- 2  # parametrul pentru distributia Poisson
-# min_uniform_discrete <- 1  # valoarea minima pentru distributia uniforma discreta
-# max_uniform_discrete <- 10  # valoarea maxima pentru distributia uniforma discreta
-# min_uniform_continuu <- 0  # valoarea minima pentru distributia uniforma continua
-# max_uniform_continuu <- 1  # valoarea maxima pentru distributia uniforma continua
-# rate_exponential <- 0.5  # rata pentru distributia exponentiala
-# shape_gamma <- 2  # forma pentru distributia gamma
-# rate_gamma <- 1  # rata pentru distributia gamma
-# shape_beta <- 2  # prima forma pentru distributia beta
-# shape2_beta <- 5  # a doua forma pentru distributia beta
-# 
-# # Generam un vector de valori pentru x
-# x_values <- seq(-3, 3, length.out = 1000)
-# 
-# # calculam P(Z_n <= x) pentru fiecare distributie
-# prob_binomial <- pnorm(sqrt(n) * (x_values - n * p_binomial) / sqrt(n * p_binomial * (1 - p_binomial)))
-# 
-# prob_geometric <- pnorm(sqrt(n) * (x_values - n / p_geometric) / sqrt(n / p_geometric^2))
-# 
-# prob_poisson <- pnorm(sqrt(n) * (x_values - n * lambda_poisson) / sqrt(n * lambda_poisson))
-# 
-# prob_uniform_discrete <- pnorm(sqrt(n) * (x_values - n * (min_uniform_discrete + max_uniform_discrete) / 2)
-#                                / sqrt(n * ((max_uniform_discrete - min_uniform_discrete + 1)^2 - 1) / 12))
-# prob_uniform_continue <- pnorm(sqrt(n) * (x_values - n * (min_uniform_continuu + max_uniform_continuu) / 2)
-# 
-#                                / sqrt(n * (max_uniform_continuu - min_uniform_continuu)^2 / 12))
-# prob_exponential <- pnorm(sqrt(n) * (x_values - n / rate_exponential) / sqrt(n / rate_exponential^2))
-# 
-# prob_gamma <- pnorm(sqrt(n) * (x_values - n * shape_gamma / rate_gamma) / sqrt(n * shape_gamma / rate_gamma^2))
-# 
-# prob_beta <- pnorm(sqrt(n) * (x_values - n * shape_beta / (shape_beta + shape2_beta)) / sqrt(n * shape_beta * shape2_beta
-#                                                                                              / ((shape_beta + shape2_beta)^2 * (shape_beta + shape2_beta + 1))))
-# 
-# 
-# # EXERCITIUL I - 2.
-# # Facem grafic pentru fiecare repartitie calculata anterior
-# par(mfrow = c(3, 3))
-# 
-# plot(x_values, prob_binomial, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Binomiala")
-# 
-# plot(x_values, prob_geometric, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Geometrica")
-# 
-# plot(x_values, prob_poisson, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Poisson")
-# 
-# plot(x_values, prob_uniform_discrete, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia uniforma Discreta")
-# 
-# plot(x_values, prob_uniform_continue,col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia uniforma Continua")
-# 
-# plot(x_values, prob_exponential, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Exponentiala")
-# 
-# plot(x_values, prob_gamma, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Gamma")
-# 
-# plot(x_values, prob_beta, col="deeppink", type = "l", ylab = "P(Zn <= x)", xlab = "x", main = "Repartitia normalizata Zn pentru distributia Beta")
-# 
-# 
-# # EXERCITIUL I - 3.
-# # Definirea functiei de diferente generale
-# diferenta <- function(prob) {
-#   function(x) {
-#     abs(prob(x) - pnorm(x))
-#   }
-# }
-# 
-# # Calculul maximei diferente absolute pentru fiecare distributie
-# 
-# # Binomial
-# prob_binomial <- function(x) pbinom(floor(x * 100), size = n, prob = p_binomial)
-# max_diff_binomial <- optimize(diferenta(prob_binomial), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_binomial)
-# 
-# # Geometric
-# prob_geometric <- function(x) pgeom(floor(x * 100), prob = p_geometric)
-# max_diff_geometric <- optimize(diferenta(prob_geometric), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_geometric)
-# 
-# # Poisson
-# prob_poisson <- function(x) ppois(floor(x * 100), lambda = lambda_poisson)
-# max_diff_poisson <- optimize(diferenta(prob_poisson), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_poisson)
-# 
-# # Uniform Discretă
-# prob_uniform_discrete <- function(x) punif(floor(x * 100), min = min_uniform_discrete, max = max_uniform_discrete)
-# max_diff_uniform_discrete <- optimize(diferenta(prob_uniform_discrete), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_uniform_discrete)
-# 
-# # Uniform Continuă
-# prob_uniform_continue <- function(x) punif(x, min = min_uniform_continuu, max = max_uniform_continuu)
-# max_diff_uniform_continue <- optimize(diferenta(prob_uniform_continue), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_uniform_continue)
-# 
-# # Exponential
-# prob_exponential <- function(x) pexp(x, rate = rate_exponential)
-# max_diff_exponential <- optimize(diferenta(prob_exponential), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_exponential)
-# 
-# # Gamma
-# prob_gamma <- function(x) pgamma(x, shape = shape_gamma, rate = rate_gamma)
-# max_diff_gamma <- optimize(diferenta(prob_gamma), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_gamma)
-# 
-# # Beta
-# prob_beta <- function(x) pbeta(x, shape1 = shape_beta, shape2 = shape2_beta)
-# max_diff_beta <- optimize(diferenta(prob_beta), interval = c(-3, 3), maximum = TRUE)$objective
-# c(max_diff_beta)
-# 
-# # EXERCITIUL I - 4.
-# #
-# funct_EV <- function(repartitie, n, p, lmbda, beta, norm_mean, norm_sd, unif_a, unif_b, unif_n, functie_masa=NULL, functie_densitate=NULL)
-# {
-#   if(is.null(functie_masa) && is.null(functie_densitate))
-#   {
-#     if(repartitie == "binomiala")
-#       functie_masa <- function(k){dbinom(k, size=n, prob=p)}
-# 
-#     else if(repartitie == "geometrica")
-#       functie_masa <- function(k){dgeom(k, prob=p)}
-# 
-#     else if(repartitie == "poisson")
-#       functie_masa <- function(k){dpois(k, lambda=lmbda)}
-# 
-#     else if(repartitie == "uniforma continuu")
-#       functie_densitate <- function(x){dunif(x, min=unif_a, max=unif_b)}
-# 
-#     else if(repartitie == "exponentiala")
-#       functie_densitate <- function(x){dexp(x, rate=lmbda)}
-# 
-#     else if(repartitie == "normala")
-#       functie_densitate <- function(x){dnorm(x, mean=norm_mean, sd=norm_sd)}
-# 
-#     else return("repartitia nu se gaseste in cele enumerate")
-#   }
-# 
-#   if(is.null(functie_masa)) #cazul continuu
-#   {
-#     E_X <- integrate(function(x){x*functie_densitate(x)}, 0, Inf)$value
-#     E_X2 <- integrate(function(x){x^2*functie_densitate(x)}, 0, Inf)$value
-#     Var_X <- E_X2 - E_X^2
-#   }
-#   else #cazul discret
-#   {
-#     #x <- numeric(n + 1)
-#     #for (i in 0:n) {
-#     #x[i + 1] <- i}
-#     x <- 0:n
-#     E_X <- sum(x*functie_masa(x))
-#     Var_X <- sum((x - E_X)^2*functie_masa(x))
-#   }
-# 
-#   return(c(E_X, Var_X))
-# 
-# 
-# }
-# 
-# print("Repartitiile sunt: binomiala, geometrica, poisson, uniforma continuu, exponentiala, normala.")
-# repartitie <- readline(prompt="Numele repartitiei: ")
-# 
-# 
-# ni <- as.numeric(readline(prompt="Introduceti valoare pentru n: "))
-# 
-# pi <- as.numeric(readline(prompt="Introduceti valoare intre 0 si 1 pentru p: "))
-# 
-# lambdai <- as.numeric(readline(prompt="Introduceti valoare pentru lambda: "))
-# 
-# betai <- as.numeric(readline(prompt="Introduceti valoare pentru beta: "))
-# 
-# norm_meani <- as.numeric(readline(prompt="Introduceti valoare pentru norm_mean: "))
-# 
-# norm_sdi <- as.numeric(readline(prompt="Introduceti valoare pentru norm_sd: "))
-# 
-# sigmai <- as.numeric(readline(prompt="Introduceti valoare pentru sigma: "))
-# 
-# mui <- as.numeric(readline(prompt="Introduceti valoare pentru mu: "))
-# 
-# unif_ai <- as.numeric(readline(prompt="Introduceti valoare pentru unif_a: "))
-# 
-# unif_bi <- as.numeric(readline(prompt="Introduceti valoare pentru unif_b: "))
-# 
-# unif_ni <- as.numeric(readline(prompt="Introduceti valoare pentru unif_n: "))
-# 
-# func_EV_valori <- funct_EV(repartitie, n=ni, p=pi, lmbda=lambdai, beta=betai, norm_mean=norm_meani, norm_sd=norm_sdi, unif_a=unif_ai, unif_b=unif_bi, unif_n=unif_ni)
-# E_X <- func_EV_valori[1]
-# Var_X <- func_EV_valori[2]
-# 
-# print("Media si dispersia:")
-# print(E_X)
-# print(Var_X)
-# 
-# 
-# # EXERCITIUL I - 5.
-# # La acest ex vom folosi partea de recunoastere a denumirilor de la 4)
-# funct_EV5 <- function(repartitie, n, p, lmbda, beta, norm_mean, norm_sd, unif_a, unif_b, unif_n, functie_masa=NULL, functie_densitate=NULL)
-# {
-#   if(is.null(functie_masa) && is.null(functie_densitate))
-#   {
-#     if(repartitie == "binomiala")
-#       functie_masa <- function(k){dbinom(k, size=n, prob=p)}
-# 
-#     else if(repartitie == "geometrica")
-#       functie_masa <- function(k){dgeom(k, prob=p)}
-# 
-#     else if(repartitie == "poisson")
-#       functie_masa <- function(k){dpois(k, lambda=lmbda)}
-# 
-#     else if(repartitie == "uniforma discret")
-#       functie_masa <- function(x){dunif(x, n=unif_n)}
-# 
-#     else if(repartitie == "uniforma continuu")
-#       functie_densitate <- function(x){dunif(x, min=unif_a, max=unif_b)}
-# 
-#     else if(repartitie == "exponentiala")
-#       functie_densitate <- function(x){dexp(x, rate=lmbda)}
-# 
-#     else if(repartitie == "normala")
-#       functie_densitate <- function(x){dnorm(x, mean=norm_mean, sd=norm_sd)}
-# 
-#     else return("repartitia nu se gaseste in cele enumerate")
-#   }
-# 
-#   if(is.null(functie_masa)) # avem functie de densitate, deci caz continuu
-#   {
-#     E_X <- integrate(function(x){x*functie_densitate(x)}, 0, Inf)$value
-#     #Luam numai valoarea integralei
-#     E_X_1 <- integrate(function(x){abs(x-E_X)^3*functie_densitate(x)}, 0, Inf)$value
-#   }
-#   else # avem functie de masa, deci suntem pe cazul discret
-#   {
-#     x <- 0:n
-#     E_X <- sum(x*functie_masa(x))
-#     E_X_1 <- sum(abs(x-E_X)^3*functie_masa(x))
-#   }
-#   return(E_X_1)
-# }
-# 
-# print("Repartitiile sunt: binomiala, geometrica, poisson, uniforma continuu, exponentiala, normala.")
-# repartitie <- readline(prompt="Numele repartitiei: ")
-# 
-# 
-# ni <- as.numeric(readline(prompt="Introduceti valoare pentru n: "))
-# 
-# probi <- as.numeric(readline(prompt="Introduceti valoare intre 0 si 1 pentru p: "))
-# 
-# lambdai <- as.numeric(readline(prompt="Introduceti valoare pentru lambda: "))
-# 
-# betai <- as.numeric(readline(prompt="Introduceti valoare pentru beta: "))
-# 
-# norm_meani <- as.numeric(readline(prompt="Introduceti valoare pentru norm_mean: "))
-# 
-# norm_sdi <- as.numeric(readline(prompt="Introduceti valoare pentru norm_sd: "))
-# 
-# sigmai <- as.numeric(readline(prompt="Introduceti valoare pentru sigma: "))
-# 
-# mui <- as.numeric(readline(prompt="Introduceti valoare pentru mu: "))
-# 
-# unif_ai <- as.numeric(readline(prompt="Introduceti valoare pentru unif_a: "))
-# 
-# unif_bi <- as.numeric(readline(prompt="Introduceti valoare pentru unif_b: "))
-# 
-# unif_ni <- as.numeric(readline(prompt="Introduceti valoare pentru unif_n: "))
-# 
-# 
-# func_EV5_valoare <- funct_EV5(repartitie, n=ni, p=probi, lmbda=lambdai, beta=betai, norm_mean=norm_meani, norm_sd=norm_sdi, unif_a=unif_ai, unif_b=unif_bi, unif_n=unif_ni)
-# print(func_EV5_valoare)
-# 
-# 
-# # EXERCITIUL I - 6.
-# # Combinam functiile de la 4) si 5)
-# 
-# func_EV6<- function(repartitie, n, p, lmbda, beta, norm_mean, norm_sd, unif_a, unif_b, unif_n, functie_masa=NULL, functie_densitate=NULL)
-# {
-#   if(is.null(functie_masa) && is.null(functie_densitate))
-#   {
-#     if(repartitie == "binomiala")
-#       functie_masa <- function(k){dbinom(k, size=n, prob=p)}
-# 
-#     else if(repartitie == "geometrica")
-#       functie_masa <- function(k){dgeom(k, prob=p)}
-# 
-#     else if(repartitie == "poisson")
-#       functie_masa <- function(k){dpois(k, lambda=lmbda)}
-# 
-# 
-#     else if(repartitie == "uniforma continuu")
-#       functie_densitate <- function(x){dunif(x, min=unif_a, max=unif_b)}
-# 
-#     else if(repartitie == "exponentiala")
-#       functie_densitate <- function(x){dexp(x, rate=lmbda)}
-# 
-#     else if(repartitie == "normala")
-#       functie_densitate <- function(x){dnorm(x, mean=norm_mean, sd=norm_sd)}
-# 
-#     else return("repartitia nu se gaseste in cele enumerate")
-#   }
-# 
-#   if(is.null(functie_masa)) # avem functie de densitate, deci caz continuu
-#   {
-#     E_X <- integrate(function(x){x*functie_densitate(x)}, 0, Inf)$value
-#     E_X2 <- integrate(function(x){x^2*functie_densitate(x)}, 0, Inf)$value
-#     E_X_1 <- integrate(function(x){abs(x-E_X)^3*functie_densitate(x)}, 0, Inf)$value
-#     Var_X <- E_X2-E_X^2
-#   }
-#   else # avem functie de masa, deci suntem pe cazul discret
-#   {
-#     x <- 0:n
-#     E_X <- sum(x*functie_masa(x))
-#     E_X_1 <- sum(abs(x-E_X)^3*functie_masa(x))
-#     Var_X <- sum((x - E_X)^2*functie_masa(x))
-#   }
-#   return(c(E_X, Var_X, E_X_1))
-# 
-# }
-# 
-# # Definim functia care calculeaza marginea data de inegalitatea Berry Essen:
-# margine_ineg_Berry_Essen <- function(n, Var_X1, E_X_1_u)
-# {
-#   return(33/4*E_X_1_u/(sqrt(n*Var_X1^3)))
-# }
-# 
-# # Facem un data.frame pe care il completam cu cu marginea fiecarei repartitii si am cream mai
-# # multi vectori marg30, marg100, marg1000 punem toate valorile
-# # date de functia margine_ineg_Berry_Essen in cazul cu 30, 100 si 1000 de
-# # termeni in sirul de variabile Xn
-# 
-# 
-# # binomiala
-# val <- func_EV6(n=10, functie_masa = function(k){dbinom(k, size=10, prob=0.7)})
-# 
-# marg30 <- c(margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(val[1])
-# dispersii <- c(val[2])
-# 
-# # geometrica
-# 
-# val <- func_EV6(n=10, functie_masa = function(k){dgeom(k, prob = 0.2)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # poisson
-# 
-# val <- func_EV6(n=10, functie_masa = function(k){dpois(k, lambda = 3)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # uniforma discreta
-# 
-# val <- func_EV6(n=10, functie_masa = function(k){dunif(k, min=0, max=1)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # uniforma continua
-# 
-# val <- func_EV6(functie_densitate = function(x){dunif(x, min=0, max=1)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # exponentiala
-# 
-# val <- func_EV6(functie_densitate = function(x){dexp(x, rate=7)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # gamma
-# 
-# val <- func_EV6(functie_densitate = function(x){dgamma(x, shape = 6, rate = 2)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# # beta
-# 
-# val <- func_EV6(functie_densitate = function(x){dbeta(x, shape1=1, shape2=3)})
-# 
-# marg30 <- c(marg30, margine_ineg_Berry_Essen(30, val[2], val[3]))
-# marg100 <- c(marg100, margine_ineg_Berry_Essen(100, val[2], val[3]))
-# marg1000 <- c(marg1000, margine_ineg_Berry_Essen(1000, val[2], val[3]))
-# 
-# medii <- c(medii, val[1])
-# dispersii <- c(dispersii, val[2])
-# 
-# 
-# valori_inegalitatea_Berry_Essen.data <- data.frame(
-# 
-#   distributia = c("Binomiala","Geometrica","Poisson","Uniforma discreta","Uniforma continua", "Exponentiala", "Gamma", "Beta"),
-#   n30 = marg30,
-#   n100 = marg100,
-#   n1000 = marg1000,
-#   stringsAsFactors = FALSE
-# )
-# 
-# # afisam data.frame
-# print(valori_inegalitatea_Berry_Essen.data)
-# 
-# 
-# 
-# # EXERCITIUL I - 7.
-# 
-# repartitii <- valori_inegalitatea_Berry_Essen.data$distributia
-# 
-# # Creare vectori cu valorile pentru n = 30
-# valori_n30 <- valori_inegalitatea_Berry_Essen.data$n30
-# 
-# # Creare vectori cu valorile pentru n = 100
-# valori_n100 <- valori_inegalitatea_Berry_Essen.data$n100
-# 
-# # Creare vectori cu valorile pentru n = 1000
-# valori_n1000 <- valori_inegalitatea_Berry_Essen.data$n1000
-# 
-# # Creare grafic pentru repartitii
-# par(mfrow=c(3,1))  # Aseaza graficele pe 3 randuri si 1 coloana
-# 
-# # n = 30
-# barplot(valori_n30, names.arg = repartitii, col = "blue", border = "black",
-#         main = "Evolutia diferentei P(Z_n <= x) - phi(x) - n = 30",
-#         xlab = "Distributia",
-#         ylab = "Diferenta")
-# legend("topright", legend = "n = 30", fill = "blue", border = "black")
-# 
-# # n = 100
-# barplot(valori_n100, names.arg = repartitii, col = "red", border = "black",
-#         main = "Evolutia diferentei P(Z_n <= x) - phi(x) - n = 100",
-#         xlab = "Distributia",
-#         ylab = "Diferenta")
-# legend("topright", legend = "n = 100", fill = "red", border = "black")
-# 
-# # n = 1000
-# barplot(valori_n1000, names.arg = repartitii, col = "green", border = "black",
-#         main = "Evolutia diferentei P(Z_n <= x) - phi(x) - n = 1000",
-#         xlab = "Distributia",
-#         ylab = "Diferenta")
-# legend("topright", legend = "n = 1000", fill = "green", border = "black")
-# 
-# 
-# 
-# 
-# 
-# # EXERCITIUL I - 8.
-# # Functie pentru calcularea marginii data de inegalitatea Berry-Essen
-# 
-# margine_inegalitatea_Berry_Essen <- function(n, Var_X1, E_X_1_u) {
-#   return(33 / 4 * E_X_1_u / (sqrt(n * Var_X1^3)))
-# }
-# 
-# # distributia binomiala
-# n_binomial <- 10
-# p_binomial <- 0.5
-# 
-# functie_masa_binomiala <- function(k) {
-#   dbinom(k, size = n_binomial, prob = p_binomial)
-# }
-# 
-# E_X_1_u_binomiala <- funct_EV5("binomiala", n_binomial, p_binomial, 0, 0, 0, 0, 0, 0, 0, functie_masa_binomiala)
-# margine_binomiala <- margine_inegalitatea_Berry_Essen(n_binomial, func_EV6("binomiala", n_binomial, p_binomial, 0, 0, 0, 0, 0, 0, 0,
-#                                                                            functie_masa_binomiala)[2], E_X_1_u_binomiala)
-# 
-# # distributia geometrica
-# n_geometric <- 10
-# p_geometric <- 0.3
-# 
-# functie_masa_geometrica <- function(k) {
-#   dgeom(k, prob = p_geometric)
-# }
-# 
-# E_X_1_u_geometrica <- funct_EV5("geometrica", n_geometric, p_geometric, 0, 0, 0, 0, 0, 0, 0, functie_masa_geometrica)
-# margine_geometrica <- margine_inegalitatea_Berry_Essen(n_geometric, func_EV6("geometrica", n_geometric, p_geometric, 0, 0, 0, 0, 0, 0, 0,
-#                                                                              functie_masa_geometrica)[2], E_X_1_u_geometrica)
-# 
-# # distributia Poisson
-# n_poisson <- 10
-# lambda_poisson <- 2
-# 
-# functie_masa_poisson <- function(k) {
-#   dpois(k, lambda = lambda_poisson)
-# }
-# 
-# E_X_1_u_poisson <- funct_EV5("poisson", n_poisson, 0, lambda_poisson, 0, 0, 0, 0, 0, 0, functie_masa_poisson)
-# margine_poisson <- margine_inegalitatea_Berry_Essen(n_poisson, func_EV6("poisson", n_poisson, 0, lambda_poisson, 0, 0, 0, 0, 0, 0,
-#                                                                         functie_masa_poisson)[2], E_X_1_u_poisson)
-# 
-# # distributia uniforma discreta
-# n_uniform_discreta <- 10
-# min_uniform_discreta <- 1
-# max_uniform_discreta <- 10
-# 
-# functie_masa_uniform_discreta <- function(x) {
-#   dunif(x, min = min_uniform_discreta, max = max_uniform_discreta)
-# }
-# 
-# E_X_1_u_uniform_discreta <- funct_EV5("uniforma discret", n_uniform_discreta, 0, 0, 0, 0, 0, 0, 0, 0, functie_masa_uniform_discreta)
-# margine_uniform_discreta <- margine_inegalitatea_Berry_Essen(n_uniform_discreta, func_EV6("uniforma discret", n_uniform_discreta, 0, 0, 0, 0, 0, 0, 0, 0,
-#                                                                                           functie_masa_uniform_discreta)[2], E_X_1_u_uniform_discreta)
-# 
-# # distributia uniforma continua
-# n_uniform_continua <- 10
-# min_uniform_continua <- 0
-# max_uniform_continua <- 1
-# 
-# functie_densitate_uniform_continua <- function(x) {
-#   dunif(x, min = min_uniform_continua, max = max_uniform_continua)
-# }
-# 
-# E_X_1_u_uniform_continua <- funct_EV5("uniforma continuu", n_uniform_continua, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_uniform_continua)
-# margine_uniform_continua <- margine_inegalitatea_Berry_Essen(n_uniform_continua, func_EV6("uniforma continuu", n_uniform_continua, 0, 0, 0, 0, 0, 0, 0, 0,
-#                                                                                           functie_densitate_uniform_continua)[2], E_X_1_u_uniform_continua)
-# 
-# # distributia exponențiala
-# n_exponentiala <- 10
-# rate_exponentiala <- 0.5
-# 
-# functie_densitate_exponentiala <- function(x) {
-#   dexp(x, rate = rate_exponentiala)
-# }
-# 
-# E_X_1_u_exponentiala <- funct_EV5("exponentiala", n_exponentiala, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_exponentiala)
-# margine_exponentiala <- margine_inegalitatea_Berry_Essen(n_exponentiala, func_EV6("exponentiala", n_exponentiala, 0, 0, 0, 0, 0, 0, 0, 0,
-#                                                                                   functie_densitate_exponentiala)[2], E_X_1_u_exponentiala)
-# 
-# # distributia gamma
-# n_gamma <- 10
-# shape_gamma <- 2
-# rate_gamma <- 1
-# 
-# functie_densitate_gamma <- function(x) {
-#   dgamma(x, shape = shape_gamma, rate = rate_gamma)
-# }
-# 
-# E_X_1_u_gamma <- funct_EV5("gamma", n_gamma, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_gamma)
-# margine_gamma <- margine_inegalitatea_Berry_Essen(n_gamma, func_EV6("gamma", n_gamma, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_gamma)[2], E_X_1_u_gamma)
-# 
-# # distributia beta
-# n_beta <- 10
-# shape_beta <- 2
-# shape2_beta <- 5
-# 
-# functie_densitate_beta <- function(x) {
-#   dbeta(x, shape1 = shape_beta, shape2 = shape2_beta)
-# }
-# 
-# E_X_1_u_beta <- funct_EV5("beta", n_beta, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_beta)
-# margine_beta <- margine_inegalitatea_Berry_Essen(n_beta, func_EV6("beta", n_beta, 0, 0, 0, 0, 0, 0, 0, 0, functie_densitate_beta)[2], E_X_1_u_beta)
-# 
-# # Afisarea rezultatelor
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia binomiala:", margine_binomiala, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia geometrica:", margine_geometrica, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia Poisson:", margine_poisson, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia uniforma discreta:", margine_uniform_discreta, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia uniforma continua:", margine_uniform_continua, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia exponentiala:", margine_exponentiala, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia gamma:", margine_gamma, "\n")
-# cat("Marginea data de inegalitatea Berry-Essen pentru distributia beta:", margine_beta, "\n")
-# 
-# 
-# 
-# # EXERCITIUL II - a.
-# # Definirea densitatii de probabilitate
-# f <- function(x) {
-#   exp(-x^2/2) * (sin(6*x)^2 + 3*cos(x)^2*sin(4*x)^2 + 1)
-# }
-# 
-# # Densitatea de probabilitate a repartitiei normale standard
-# g <- function(x) {
-#   dnorm(x, mean = 0, sd = 1)
-# }
-# 
-# # Reprezentarea grafica si gasirea constantei de margine M
-# x <- seq(-5, 5, length.out = 1000)
-# y <- f(x)
-# yg <- g(x)
-# 
-# plot(x, y, type = "l", col = "blue", lwd = 2, ylab = "f(x)", xlab = "x")
-# lines(x, yg, col = "red", lty = 2, lwd = 2)
-# 
-# # Gasirea constantei de margine (M)
-# 
-# M_values <- f(x) / g(x)
-# M <- max(M_values)
-# cat("Valoarea constantei de margine M:", M, "\n")
-# 
-# 
-# 
-# # EXERCITIUL II - b.
-# # Functia de respingere
-# 
-# simulare <- function(n) {
-#   x <- rep(0, n) # Initializarea unui vector pentru stocarea observatiilor generate
-#   total <- 0
-#   for (i in 1:n) {
-#     x[i] <- rnorm(1, 0, 1)  # Generare a unei propuneri din distributia g(x)
-#     total <- total + 1
-#     u <- runif(1)
-#     while (u > (f(x[i]) / (M * g(x[i])))) {  # Verificarea conditiei de acceptare/respingere
-#       x[i] <- rnorm(1, 0, 1)  # Generarea unei noi propuneri in cazul respingerii
-#       u <- runif(1)
-#       total <- total + 1
-#     }
-#   }
-#   return(list(x, total))
-# }
-# 
-# # Generarea a 25000 de observatii
-# observatii <- unlist(simulare(25000)[1])
-# length(observatii)
-# unlist(simulare(25000)[2])
-# # Afisarea histogramei
-# hist(observatii, freq = FALSE, breaks = 50, col = "deeppink", main = "Histograma observatiilor generate")
-# 
-# 
-# # EXERCITIUL II - c.
-# # Calculul ratei de acceptare
-# #nr de puncte acceptate/ nr de iteratii efectuate(atat pucntele acceptate cat si cele respinse)
-# A <-  length(observatii) / unlist(simulare(25000)[2])
-# A
-# 
-# # Aproximarea constantei de normalizare
-# M_aprox <- 1 / A
-# 
-# # Normalizarea functiei f(x)
-# f_normalized <- function(x) {
-#   f(x) / M_aprox
-# }
-# 
-# # Reprezentarea grafica a functiei normalizate
-# hist(observatii, breaks = 100, freq=FALSE, col = "deeppink")
-# curve(f_normalized, from = -5, to = 5, add = TRUE,col = "blue", lwd = 2, ylab = "f(x)", xlab = "x",
-#       main = "Functia de densitate de probabilitate normalizata")
-# 
-# 
-# # EXERCITIUL III - 1.
-# library(ConvergenceConcepts)
-# # Setam nr de observatii
-# n<-1000
-# 
-# # Generam n observatii din distributia Beta(1/n, 1/n)
-# x <- runif(n, 0, 1)
-# 
-# #Beta este definita pe (0,1)
-# #1
-# # Xi~Beta(1/n,1/n)
-# # Functia de densitate pentru variabilele Beta(1/n, 1/n)
-# beta <- function(n){
-#   dbeta(n, 1/n, 1/n)
-# }
-# 
-# # Functia de densitate pentru distributia binomiala
-# densitate_binomX <- function(x){
-#   dbinom(x, 1, 1/2)
-# }
-# # Functia pentru distributia binomial
-# distributie_binomX <- function(x){
-#   pbinom(x, 1, 1/2)
-# }
-# 
-# # Verificam convergenta in Lege (distributie)
-# check.convergence(nmax = n, M = n/2, genXn = beta, mode = "L", density = F,
-#                   densfunc = densitate_binomX,
-#                   probfunc = distributie_binomX,
-#                   tinf = 0,tsup = 1)
-# # Se observa ca Fn-F -> 0 => converge in lege
-# 
-# #Xi~Beta(a/n,b/n)
-# 
-# # Functia pentru variabilele Beta(a/n, b/n)
-# beta2 <- function(n, a = 33, b = 44){
-#   dbeta(n, a/n, b/n)
-# }
-# 
-# # Verificam convergenta in Lege (distributie)
-# check.convergence(nmax = n, M = n/2, genXn = beta2, mode = "L", density = F,
-#                   densfunc = densitate_binomX,
-#                   probfunc = distributie_binomX,
-#                   tinf = 0, tsup = 1)
-# 
-# # EXERCITIUL III - 2.
-# n <- 1000
-# x <- 1:n
-# 
-# # Xi~Random(1/n,1)
-# # Generam n observatii uniform distribuite pe multimea {1/n, 2/n, ..., 1}
-# UnifXi <- function(n){
-#   runif(n, 1/n, 1)
-# }
-# 
-# 
-# # Functia de densitate pentru distributia uniforma pe intervalul (0, 1)
-# densitate_unifX <- function(x){
-#   dunif(x, 0, 1)
-# }
-# 
-# 
-# # Functia pentru distributia X~Unif(0,1)
-# distributie_unifX <- function(x){
-#   punif(x, 0, 1)
-# }
-# 
-# # Verificam convergenta in Lege (distributie)
-# check.convergence(nmax = n, M = n/2, genXn = UnifXi, mode = "L", density = FALSE,
-#                   densfunc = densitate_unifX,
-#                   probfunc = distributie_unifX,
-#                   tinf = 0, tsup = 1)
-# 
-# # Nu converge in Lege pt ca nu tinde la 0
-# 
-# 
-# # Verificam convergenta in Probabilitate (distributie)
-# check.convergence(nmax = n, M = n/2, genXn = UnifXi, mode="p", density=TRUE,
-#                   densfunc = densitate_unifX,
-#                   probfunc = distributie_unifX,
-#                   tinf = 0, tsup = 1)
-# 
-# # Nu converge in probabilitate pt ca p nu tinde la 0
-# 
-# # EXERCITIUL III - 3.
-# n <- 1000
-# x <- runif(n, 0, 1)
-# m = min(x)
-# M = max(x)
-# 
-# # Functia pentru minimul din n observatii
-# UnifXi <- function(n){
-#   min(x)
-# }
-# 
-# # Functia de densitate pentru X~Unif(m,m)
-# densitate_unifX <- function(x, ep = 0.005){
-#   dunif(x, 0, 1)
-# }
-# 
-# # Functia pentru distribuția X~Unif(0,1)
-# distributie_unifX <- function(x, ep = 0.005){
-#   punif(x, 0, 1)
-# }
-# 
-# 
-# # Verificam convergenta Aproape Sigura
-# check.convergence(nmax = n, M = n/2, genXn = UnifXi, mode = "as", density = FALSE,
-#                   densfunc = densitate_unifX,
-#                   probfunc = distributie_unifX,
-#                   tinf = m, tsup = M)
-# 
-# # Converge aproape sigur, pentru ca diferenta dintre valori tinde spre 0/ are valori mici
-# 
-# # Functia pentru maximul din n observatii
-# UnifXi2 <- function(n){
-#   max(x)
-# }
-# 
-# # Functia de densitate pentru X~Unif(0, 1)
-# densitate_unifX2 <- function(x, ep = 0.005){
-#   dunif(x, 0, 1)
-# }
-# 
-# # Functia pentru distributia pentru X~Unif(0,1)
-# distributie_unifX2 <- function(x, ep = 0.005){
-#   punif(x, 0, 1)
-# }
-# 
-# 
-# # Verificam convergenta Aproape Sigura
-# check.convergence(nmax = n, M = n/2, genXn = UnifXi2, mode = "as", density = FALSE,
-#                   densfunc = densitate_unifX2,
-#                   probfunc = distributie_unifX2,
-#                   tinf = m, tsup = M)
-# 
-# # Nu converge aproape sigur, pentru ca diferenta dintre valori nu tinde spre 0/ are valori mici
-# 
-# # EXERCITIUL IV - 1.a.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima probabilitatile de castig din prima incercare pentru fiecare categorie
-# functie_estimare <- function(nr_simulari, bilet_castigator) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri <- rep(0, 4)
-# 
-#   for (i in 1:nr_simulari) {
-#     # Generam biletul participantului
-#     bilet_jucat <- genereaza_bilet()
-#     # Verificam daca este castigator
-#     potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#     # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#     if (potriviri >= 3) {
-#       castiguri[potriviri - 2] <- castiguri[potriviri - 2] + 1
-#     }
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   probabilitati <- castiguri / nr_simulari
-#   return(probabilitati)
-# }
-# 
-# nr_simulari <- 10^6
-# 
-# # Numere castigatoare
-# bilet_castigator <- genereaza_bilet()
-# 
-# # Probabilitatile de castig din prima incercare pentru fiecare categorie
-# probabilitati_a <- functie_estimare(nr_simulari, bilet_castigator)
-# probabilitati_a
-# 
-# # EXERCITIUL IV - 1.b.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima probabilitatea de castig pentru fiecare categorie dupa k incercari
-# functie_estimare <- function(nr_simulari, bilet_castigator, k) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri_total <- rep(0, 4)
-# 
-#   # Realizam simularile
-#   for (i in 1:nr_simulari) {
-#     # Vector care memoreaza numarul de castiguri pentru fiecare categorie in cadrul unei incercari
-#     castiguri <- rep(0, 4)
-#     # Realizam k incercari
-#     for (j in 1:k) {
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#       if (potriviri >= 3) {
-#         castiguri[potriviri - 2] <- 1
-#       }
-#     }
-#     # Adaugam rezultatele in totalul de castiguri
-#     castiguri_total <- castiguri_total + castiguri
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   probabilitati <- castiguri_total / nr_simulari
-#   return(probabilitati)
-# }
-# 
-# # Numarul de incercari
-# k <- 5
-# nr_simulari <- 10^6
-# 
-# # Numerele castigatoare
-# bilet_castigator <- genereaza_bilet()
-# # Probabilitatea de a castiga dupa k incercari
-# probabilitati_b <- functie_estimare(nr_simulari, bilet_castigator, k)
-# probabilitati_b
-# 
-# 
-# # EXERCITIUL IV - 1.c.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima probabilitatea de castig de r ori pentru fiecare categorie dupa k incercari
-# functie_estimare <- function(nr_simulari, bilet_castigator, k , r) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri_total <- rep(0, 4)
-# 
-#   # Realizam simularile
-#   for (i in 1:nr_simulari) {
-#     # Vector care memoreaza numarul de castiguri pentru fiecare categorie in cadrul unei incercari
-#     castiguri <- rep(0, 4)
-#     # Realizam k incercari
-#     for (j in 1:k) {
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva si iesim din bucla daca sunt cel putin r reusite
-#       if (potriviri >= 3) {
-#         castiguri[potriviri - 2] <- 1
-#         if (sum(castiguri) >= r) {
-#           break
-#         }
-#       }
-#     }
-#     # Adaugam rezultatele in totalul de castiguri
-#     castiguri_total <- castiguri_total + castiguri
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   probabilitati <- castiguri_total / nr_simulari
-#   return(probabilitati)
-# }
-# 
-# # Numarul de incercari
-# k <- 5
-# r <- 2
-# nr_simulari <- 10^6
-# 
-# # Numerele castigatoare
-# bilet_castigator <- genereaza_bilet()
-# # Probabilitatea de a castiga de r ori dupa k incercari
-# probabilitati_c <- functie_estimare(nr_simulari, bilet_castigator, k , r)
-# probabilitati_c
-# 
-# # EXERCITIUL IV - 1.d.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# #  Functie pentru a estima probabilitatea de castig de r ori pentru fiecare categorie dupa k esecuri
-# functie_estimare <- function(nr_simulari, bilet_castigator, r, k) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri_total <- rep(0, 4)
-# 
-#   for (i in 1:nr_simulari) {
-#     # Vector care memoreaza numarul de castiguri pentru fiecare categorie in cadrul unei incercari
-#     castiguri <- rep(0, 4)
-#     # Realizam k esecuri
-#     nr_esecuri <- 0
-#     for (j in 1:k) {
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva si iesim din bucla daca sunt cel putin r reusite
-#       if (potriviri >= 3) {
-#         castiguri[potriviri - 2] <- 1
-#         if (sum(castiguri) >= r) {
-#           break
-#         }
-#       } else {
-#         nr_esecuri <- nr_esecuri + 1
-#         if (nr_esecuri >= k) {
-#           break
-#         }
-#       }
-#     }
-#     # Adaugam rezultatele in totalul de castiguri
-#     castiguri_total <- castiguri_total + castiguri
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   probabilitati <- castiguri_total / nr_simulari
-#   return(probabilitati)
-# }
-# 
-# r <- 2
-# k <- 5
-# 
-# # Numerele castigatoare
-# bilet_castigator <- genereaza_bilet()
-# # Probabilitatea de a castiga de r ori dupa k esecuri
-# probabilitati_d <- functie_estimare(nr_simulari, bilet_castigator, r, k)
-# probabilitati_d
-# 
-# # EXERCITIUL IV - 1.e.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie care estimeaza probabilitatea de a castiga cel putin o data pe an in 30 de ani
-# functie_estimare <- function(nr_simulari, nr_ani) {
-#   # Contor pentru numarul de ani castigatori
-#   ani_castigatori <- 0
-# 
-#   for (i in 1:nr_simulari) {
-#     # Contor pentru castigurile dintr un an
-#     castig_anual <- 0
-#     for (k in 1:nr_ani * 52){
-#     # Extragerile pentru fiecare saptamana din an
-#     for (j in 1:2) {
-#       # Numerele castigatoare
-#       bilet_castigator <- genereaza_bilet()
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Daca sunt cel putin 3 potriviri, adaugam 1 la castigul anual si iesim din bucla
-#       if (potriviri >= 3) {
-#         castig_anual <- 1
-#         break
-#       }
-#     }
-#     }
-#     # Daca am castigat macar o data in acest an, incrementam contorul ani_castigatori
-#     if (castig_anual == 1) {
-#       ani_castigatori <- ani_castigatori + 1
-#     }
-#   }
-# 
-#   # Estimam probabilitatea de a castiga cel putin o data pe an timp de 30 de ani
-#   probabilitate <- ani_castigatori / nr_simulari
-#   return(probabilitate)
-# }
-# nr_simulari <- 10^6
-# nr_ani <- 30
-# 
-# # Probabilitatea de a castiga cel putin o data pe an in 30 de ani
-# probabilitate_e <- functie_estimare(nr_simulari, nr_ani)
-# probabilitate_e
-# 
-# 
-# # EXERCITIUL IV - 1.f.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# # Functie pentru a estima probabilitatea de a juca saptamanal, timp de un an, cate un bilet simplu si a nu castiga niciodata
-# functie_estimare <- function(nr_simulari) {
-#   an <- 0
-#   for (i in 1:nr_simulari) {
-#     # Contor pentru anii castigatori
-#     an_castigator <- 0
-#     # Extragerile pentru fiecare saptamana din an
-#     for (j in 1:52) {
-#       for (k in 1:2){
-#       # Numerele castigatoare
-#       bilet_castigator <- genereaza_bilet()
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Daca sunt cel putin 3 potriviri, trecem la urmatoarea simulare
-#       if (potriviri >= 3 && an_castigator == 0) {
-#         an_castigator <- an_castigator + 1
-#       }
-#       }
-#     }
-#     an <- an + an_castigator
-#   }
-# 
-#   # Estimam probabilitatea de a juca saptamanal, timp de un an, cate un bilet simplu ai a nu castiga niciodata
-#   probabilitate <- 1 - (an / nr_simulari)
-#   return(probabilitate)
-# }
-# 
-# nr_simulari <- 10^6
-# 
-# # Probabilitatea de a juca saptamanal, timp de un an, cate un bilet simplu si a nu castiga niciodata
-# probabilitate_f <- functie_estimare(nr_simulari)
-# probabilitate_f
-# 
-# # EXERCITIUL IV - 1.g.
-# #############################################################
-# 
-# # Ne vom folosi de numarul mediu de castigatori de la 2.d.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator, nr_participanti) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima numarul mediu de castigatori pentru fiecare categorie de la o extragere
-# functie_estimare <- function(nr_simulari, bilet_castigator, nr_participanti) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri <- rep(0, 4)
-# 
-#   for (i in 1:nr_simulari) {
-#     # Generam biletul participantului
-#     bilet_jucat <- genereaza_bilet()
-#     # Verificam daca este castigator
-#     potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#     # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#     if (potriviri >= 3) {
-#       castiguri[potriviri - 2] <- castiguri[potriviri - 2] + 1
-#     }
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   castigatori <- castiguri / nr_simulari * nr_participanti
-#   return(castigatori)
-# }
-# 
-# nr_simulari <- 10^6
-# # Presupunem ca la o extragere participa 10^7 persoane
-# nr_participanti <- 10^7
-# 
-# # Numere castigatoare
-# bilet_castigator <- genereaza_bilet()
-# 
-# # Probabilitatile de castig din prima incercare pentru fiecare categorie
-# nr_mediu_castigatori <- functie_estimare(nr_simulari, bilet_castigator, nr_participanti)
-# nr_mediu_castigatori
-# 
-# ###########################################################################
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# # Functie pentru a calcula castigul corespunzator numarului de potriviri
-# castig_potriviri <- function(potriviri) {
-#   castig <- 0
-#   if (potriviri == 3) {
-#     castig <- 30
-#   } else if (potriviri == 4) {if(nr_mediu_castigatori[1] !=0){
-#     castig <- 363350 / nr_mediu_castigatori[1]
-#   } else castig <-0
-#    } else if (potriviri == 5) {if(nr_mediu_castigatori[2] !=0){
-#     castig <- 390000 / nr_mediu_castigatori[2]
-#    }  else castig <-0
-#    } else if (potriviri == 6) { if(nr_mediu_castigatori[3] !=0){
-#     castig <- 1090000 / nr_mediu_castigatori[3]
-#   }  else castig <-0}
-#   return(castig)
-# }
-# 
-# # Functie pentru a estima probabilitatea de a juca saptamanal, timp de un an, cate un bilet simplu ai de a castiga, cumulat, o suma mai mare decat costul total al biletelor jucate
-# functie_estimare <- function(nr_simulari, cost_bilet) {
-#   # Contor sume castigate cumulat
-#   sume_castigate_cumulat <- 0
-# 
-#     for (i in 1:nr_simulari) {
-#     # Contor suma castigan un an
-#     suma_castigata_an <- 0
-# 
-#     for (j in 1:52) {
-#       for(k in 1:2){
-#       # Numerele castigatoare
-#       bilet_castigator <- genereaza_bilet()
-#       # Generam biletul participantului
-#       bilet_jucat <- genereaza_bilet()
-#       # Verificam daca este castigator
-#       potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#       # Actualizam suma castigata in an in functie de numarul de potriviri
-#       suma_castigata_an <- suma_castigata_an + castig_potriviri(potriviri)
-#       }
-#     }
-# 
-#     # Daca suma castigata in acest an este mai mare decat costul total al biletelor, adaugam 1 la contorul sume_castigate_cumulat
-#     if (suma_castigata_an > (52 * 2 * cost_bilet)) {
-#       sume_castigate_cumulat <- sume_castigate_cumulat + 1
-#     }
-#   }
-# 
-#   # Estimam probabilitatea de a juca saptamanal, timp de un an, cate un bilet simplu ai de a castiga, cumulat, o suma mai mare decat costul total al biletelor jucate
-#   probabilitate <- sume_castigate_cumulat / nr_simulari
-#   return(probabilitate)
-# }
-# 
-# cost_bilet <- 7
-# nr_simulari <- 10^6
-# probabilitate_g <- functie_estimare(nr_simulari, cost_bilet)
-# probabilitate_g
-# 
-# 
-# # EXERCITIUL IV - 2.a.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima castigul mediu pe un an al Loteriei
-# functie_estimare <- function(nr_simulari) {
-#   castig <- 0
-#   for (j in 1:52)
-#   {for(k in 1:2){
-#       # Acestea tin cont de castigurile participantilor si numarul celor care au castigat la o singura extragere
-#       castig_3_numere <- 0
-#       castig_4_numere <- 0
-#       castig_5_numere <- 0
-#       castig_6_numere <- 0
-#       oameni_4 <- 0
-#       oameni_5 <- 0
-#       oameni_6 <- 0
-#       # Numere castigatoare
-#       bilet_castigator <- genereaza_bilet()
-#       # Extragerile pentru fiecare saptamana din an
-#       for (i in 1:nr_simulari) {
-#         # Generam biletul participantului
-#         bilet_jucat <- genereaza_bilet()
-#         # Verificam daca este castigator
-#         num_potrivite <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#         # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#         if (num_potrivite == 3) {
-#           castig_3_numere <- castig_3_numere + 30
-#         } else if (num_potrivite == 4) {
-#           castig_4_numere <- castig_4_numere + 363350
-#           oameni_4 <- oameni_4 + 1
-#         } else if (num_potrivite == 5) {
-#           castig_5_numere <- castig_5_numere + 390000
-#           oameni_5 <- oameni_5 + 1
-#         } else if (num_potrivite == 6) {
-#           castig_6_numere <- castig_6_numere +  1090000
-#           oameni_6 <- oameni_6 + 1
-#         }
-# 
-#       }
-#       if(oameni_4 != 0){
-#         castig_4_numere <- castig_4_numere / oameni_4
-#       }
-#       if(oameni_5 != 0){
-#         castig_5_numere <- castig_5_numere / oameni_5
-#       }
-#       if(oameni_6 != 0){
-#         castig_6_numere <- castig_6_numere / oameni_6
-#       }
-#       castig <- castig + castig_3_numere + castig_4_numere +  castig_5_numere + castig_6_numere
-#     }}
-#   suma <- castig
-#   suma_bilete_vandute <- 7 * 2 * 52 * nr_simulari
-#   castig_loterie <- suma_bilete_vandute - suma
-#   return(castig_loterie)
-# }
-# 
-# # Numarul presupus de participanti
-# nr_simulari <- 10^6
-# 
-# # Estimarea castigul mediu pe un an al Loteriei
-# castig_mediu <- functie_estimare(nr_simulari)
-# castig_mediu
-# 
-# 
-# # EXERCITIUL IV - 2.b.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima numarul minim de bilete vandute pentru ca Loteria sa nu iasa in pierdere
-# functie_estimare <- function(nr_simulari) {
-#   castig <- 0
-#   for (j in 1:52)
-#   {for(k in 1:2){
-#       # Acestea tin cont de castigurile participantilor si numarul celor care au castigat la o singura extragere
-#       castig_3_numere <- 0
-#       castig_4_numere <- 0
-#       castig_5_numere <- 0
-#       castig_6_numere <- 0
-#       oameni_4 <- 0
-#       oameni_5 <- 0
-#       oameni_6 <- 0
-#       # Numere castigatoare
-#       bilet_castigator <- genereaza_bilet()
-#       # Extragerile pentru fiecare saptamana din an
-#       for (i in 1:nr_simulari) {
-#         # Generam biletul participantului
-#         bilet_jucat <- genereaza_bilet()
-#         # Verificam daca este castigator
-#         num_potrivite <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#         # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#         if (num_potrivite == 3) {
-#           castig_3_numere <- castig_3_numere + 30
-#         } else if (num_potrivite == 4) {
-#           castig_4_numere <- castig_4_numere + 363350
-#           oameni_4 <- oameni_4 + 1
-#         } else if (num_potrivite == 5) {
-#           castig_5_numere <- castig_5_numere + 390000
-#           oameni_5 <- oameni_5 + 1
-#         } else if (num_potrivite == 6) {
-#           castig_6_numere <- castig_6_numere +  1090000
-#           oameni_6 <- oameni_6 + 1
-#         }
-# 
-#       }
-#       if(oameni_4 != 0){
-#         castig_4_numere <- castig_4_numere / oameni_4
-#       }
-#       if(oameni_5 != 0){
-#         castig_5_numere <- castig_5_numere / oameni_5
-#       }
-#       if(oameni_6 != 0){
-#         castig_6_numere <- castig_6_numere / oameni_6
-#       }
-#       castig <- castig + castig_3_numere + castig_4_numere +  castig_5_numere + castig_6_numere
-#     }}
-#   suma <- castig
-#   bilete_vandute <- suma / 7
-#   return(bilete_vandute)
-# }
-# 
-# # Numarul presupus de participanti
-# nr_simulari <- 10^6
-# 
-# # Estimarea numarului minim de bilete vandute pentru ca Loteria sa nu iasa in pierdere
-# bilete_vandute <- functie_estimare(nr_simulari)
-# bilete_vandute
-# 
-# 
-# # EXERCITIUL IV - 2.d.
-# set.seed(311)
-# # Functie pentru a genera un bilet simplu de loto cu distributia uniforma discreta
-# genereaza_bilet <- function() {
-#   sample(1:49, 6, replace = FALSE)
-# }
-# 
-# # Functie care verifica cate numere din biletul participantului se potrivesc cu numerele castigatoare
-# verifica_potrivire <- function(bilet_jucat, bilet_castigator, nr_participanti) {
-#   intersectie <- intersect(bilet_jucat, bilet_castigator)
-#   lungime_intersectie <- length(intersectie)
-#   return(lungime_intersectie)
-# }
-# 
-# # Functie pentru a estima numarul mediu de castigatori pentru fiecare categorie de la o extragere
-# functie_estimare <- function(nr_simulari, bilet_castigator, nr_participanti) {
-#   # Vector care memoreaza numarul de castiguri pentru fiecare categorie
-#   castiguri <- rep(0, 4)
-# 
-#   for (i in 1:nr_simulari) {
-#     # Generam biletul participantului
-#     bilet_jucat <- genereaza_bilet()
-#     # Verificam daca este castigator
-#     potriviri <- verifica_potrivire(bilet_jucat, bilet_castigator)
-#     # Daca sunt cel putin 3 potriviri, actualizam numarul de castiguri pentru categoria respectiva
-#     if (potriviri >= 3) {
-#       castiguri[potriviri - 2] <- castiguri[potriviri - 2] + 1
-#     }
-#   }
-# 
-#   # Estimam probabilitatile de castig pentru fiecare categorie
-#   castigatori <- castiguri / nr_simulari * nr_participanti
-#   return(castigatori)
-# }
-# 
-# nr_simulari <- 10^6
-# # Presupunem ca la o extragere participa 10^7 persoane
-# nr_participanti <- 10^7
-# 
-# # Numere castigatoare
-# bilet_castigator <- genereaza_bilet()
-# 
-# # Probabilitatile de castig din prima incercare pentru fiecare categorie
-# nr_mediu_castigatori <- functie_estimare(nr_simulari, bilet_castigator, nr_participanti)
-# nr_mediu_castigatori
-# 
-# # EXERCITIUL IV - 4.
-# 
-# # Alegem din histograma cele mai frecvente 6 numere care au fost extrase pentru castig
-# 
-# generare_bilet <- function() {
-#   return(sample(1:49, 104*6, replace = TRUE))
-# }
-# 
-# # Cream un cadru de date initial cu toate valorile initiale pe zero
-# df <- data.frame(matrix(0, nrow = 20, ncol = 104 * 6))
-# 
-# # Iteram prin fiecare an si generam 104 extrageri de 6 numere aleatorii pentru fiecare an
-# for (i in 1:20) {
-#   df[i, ] <- generare_bilet()
-# }
-# 
-# # Reshape la dataframe pentru a avea 6 coloane pentru fiecare extragere
-# df <- data.frame(matrix(unlist(df), nrow = 20, byrow = TRUE))
-# 
-# # Atribuim nume coloanelor
-# colnames(df) <- paste0("Extragere_", 1:(104 * 6))
-# 
-# # Adaugam o coloana cu anii
-# df$An <- seq(2001, 2020)
-# 
-# 
-# # Calculam frecvenaa fiecarui numar
-# frecventa_numerelor <- table(as.matrix(df[, 1:(104*6)]))
-# 
-# # Cream un grafic de bare pentru frecventa numerelor
-# barplot(frecventa_numerelor,
-#         main = "Frecventa Numerelor in Extrageri de Loterie",
-#         xlab = "Numarul Extragerii",
-#         ylab = "Frecventa",
-#         col = "deeppink",
-#         las = 1)
+###########. Ex 1 ############
+
+# Construiti functii ȋn R care sa implementeze algoritmi de simulare pentru urmatoarele
+#situatii descrise:
+
+#### a)
+# X ~ Cauchy (x0,y)
+# F(x) = 1/2 + 1/pi(arctg((x-x0)/y))
+
+
+simulare_cauchy <- function(n,x0,y){
+  u <- runif(n)
+  x <- x0 + y * tan(pi * (u - 0.5))
+  return(x)
+}
+
+set.seed(576)
+valori_cauchy <- simulare_cauchy(n = 100, x0 = 0, y = 1)
+print(valori_cauchy)
+
+#histograma
+hist(valori_cauchy, freq = F)
+t <- seq(min(valori_cauchy),max(valori_cauchy),1) 
+lines(t,dcauchy(t, location = 0, scale = 1), col = "magenta")
+#observam ca obtinem si numere negative.
+
+## b)
+
+simulare_discreta <- function(n,val,p){
+  x <- rep(0,n) # vectori de 0 de n ori
+  i <- 1
+  while (i <= n){
+    u <- runif(1)
+    if (u < p[1]){
+      x[i] <- val[1]
+    } 
+    else if ((p[1]+p[2])< u ){
+      x[i] <-  val[2]
+    }
+    else x[i] <- val[3]
+    i <- i + 1
+  }
+  return(x)
+}
+
+set.seed(576)
+valori_discreta <- simulare_discreta(n = 100, val= c(1,2,3), p = c(1/2,1/3,1/6))
+print(valori_discreta)
+hist(valori_discreta, freq = F, breaks = c(0.5, 1.5, 2.5, 3.5))
+
+
+# c)
+
+simulare_c <- function(n, x1, x2, p) {
+  x <- rep(0,n) # vectori de 0 de n ori
+  i <- 1
+  while (i <= n){
+    u <- runif(1)
+    if (u < p ){
+      x[i] <- x2
+    } 
+    else x[i] <- x1
+    i <- i + 1
+  }
+  return(x)
+}
+
+set.seed(576)
+valori_c<- simulare_c(n = 100, x1 = 3, x2 = 7, p = 0.4)
+print(valori_c)
+hist(valori_c, freq = F,  breaks = c(2.5, 3.5, 6.5, 7.5))
+
+#d)
+#extragerea unui nr intreg cuprins intre a si b 
+
+simulare_perturbata_aleator <- function(t,a, b) {
+  n <- b - a + 1 # Numarul total de valori din interval
+  k_m <- (t %% n) + a  # Pozitia corecta in interval
+  
+  # Calculam ponderile exponentiale
+  k <- seq(a, b)
+  #f <- exp(-abs(k - k_m)) #am observat cu aceasta modalitate, valorile sunt aproape numai de a
+  f <- 1 / (1 + abs(k - k_m)) # Penalizare liniara in loc de exponentiala
+  # Normalizam ponderile pentru a obtine probabilitati
+  probabilitatile <- f / sum(f)
+  
+  # Alegem un numar pe baza probabilitatilor calculate
+  x <- sample(k, size = 1, prob = probabilitatile)
+  #prob_x <- exp(-abs(x - k_m))/sum(f)
+  #x_prob <- c(x,t,k_m,prob_x)
+  return(x) #return(x_prob)
+}
+
+set.seed(576)
+# Obtinem ora curenta
+ora <- as.numeric(format(Sys.time(), "%H"))
+valori_sim_pert<- simulare_perturbata_aleator(t= ora,a=2, b= 40)
+print(valori_sim_pert)
+
+
+#linie STB
+#ipoteza
+
+set.seed(576)
+xmin <- simulare_perturbata_aleator(t= ora,a= 100, b=350)
+xmax <- simulare_perturbata_aleator(t= ora,a= 671, b=1000)
+y <- simulare_perturbata_aleator(t= ora,a=xmin, b=xmax)
+
+
+tipuri_zile <- simulare_discreta(n = 30, val= c(1,2,3), p = c(1/2,1/3,1/6))
+zile_lejere <- sum(tipuri_zile == 1)
+zile_normale <- sum(tipuri_zile == 2)
+zile_aglomerate <- sum(tipuri_zile == 3)
+
+
+pret_bilet <- 3 
+pret_abonament <-  70
+
+set.seed(576)
+pasageri_x <- function(x){
+  v <- simulare_cauchy(n = 1, x0 = 0, y = 1)
+  pr <- abs(v - floor(v)) #partea fractionara a numarului v, atribuita lui p de la c)
+  
+  # x1,x2 extrase uniform 
+  x1 <- sample(1:99, 1) 
+  x2 <- sample(1:99, 1) 
+  x_bilet_vector <- simulare_c(n = 1, x1 = x1, x2 = x2, p = pr) #x% din cei care nu platesc abonament au bilet
+  x_bilet <- x_bilet_vector[1]
+  
+  z <- abs(floor(simulare_cauchy(n = 1, x0 = 5, y = 2))) 
+  x_abonament <- simulare_perturbata_aleator(t = z, a=1, b= 99) # x% din total achizitioneava ab
+  
+  x_procent <- c(x_bilet,x_abonament)
+  return (x_procent)
+}
+
+valori_pasageri_x <- pasageri_x()
+#cu datele de mai sus, incepem sa rezolvam subpunctele:
+
+
+#Rezolvare 
+#################### a) Simulam numarul de calatori pentru fiecare zi din decembrie 2024
+
+set.seed(576)
+simulare_calatori<- function(n){
+  i <- 1
+  x <- rep(0,n)
+  while (i<=n){
+    xmin <- simulare_perturbata_aleator(t= ora,a= 100, b=350) #am observat ca valorile sunt mai apropiate de a, asa ca am pus un a mai mare
+    xmax <- simulare_perturbata_aleator(t= ora,a= 671, b=1500)
+    x[i] <- simulare_perturbata_aleator(t= ora,a=xmin, b=xmax)
+    i <- i + 1
+  }
+  return (x)
+}
+calatori_dec <- simulare_calatori(31)
+print(calatori_dec)
+
+# Constructia histogramei
+hist(calatori_dec, freq = F, 
+     main = "Distributia numarului de calatori in decembrie 2024",
+     xlab = "Numar de calatori", ylab = "Densitate")
+lines(density(calatori_dec), col = "red", lwd = 2)
+
+
+
+#################### b) simulare toate lunile:
+
+# Functie pentru simularea datelor unei luni
+simulare_luna <- function(n) {
+  # Generam numarul de calatori pentru o luna
+  calatori <- simulare_calatori(n)
+  print(calatori)
+  
+  # Calculam statistici
+  media <- round(sum(calatori)/n,2)
+  minim <- min(calatori)
+  maxim <- max(calatori)
+  
+  lejere <- sum(calatori < 350)
+  normale <- sum(calatori>= 351 & calatori <= 670)
+  aglomerate <- sum(calatori > 670)
+  
+  procent_lejere <- lejere/n *100
+  procent_normale<- normale/n *100
+  procent_aglomerate <- aglomerate/n *100
+  
+  
+  # Returnam un vector cu rezultatele
+  return(c(Media = media, Min = minim, Max = maxim, 
+           Lejere = procent_lejere, Normale = procent_normale, Aglomerate = procent_aglomerate))
+}
+
+# Numarul de zile din fiecare luna din 2024 (an bisect)
+zile_luni <- c(
+  ianuarie = 31, februarie = 29, martie = 31, aprilie = 30, mai = 31,
+  iunie = 30, iulie = 31, august = 31, septembrie = 30,
+  octombrie = 31, noiembrie = 30, decembrie = 31
+)
+
+# Dataframe pentru stocarea rezultatelor
+rezultate <- data.frame(
+  Luna = names(zile_luni),
+  Media = numeric(length(zile_luni)),
+  Min = numeric(length(zile_luni)),
+  Max = numeric(length(zile_luni)),
+  Lejere = numeric(length(zile_luni)),
+  Normale = numeric(length(zile_luni)),
+  Aglomerate = numeric(length(zile_luni))
+)
+
+# Iteram prin fiecare luna si simulam datele
+for (i in seq_along(zile_luni)) {
+  rezultate[i, 2:7] <- simulare_luna(zile_luni[i])
+}
+
+# Afisam rezultatele
+print(rezultate)
+
+#################### c)
+# Avem functia simulare_calatori si stim ca x_abonament % din calatori achizitioneana abonament si x_bilet% cumpara bilet 
+# pe noi ne intereseaza: nr pasageri cu abonament, nr pasageri cu bilet si nr pasageri care nu platesc bilet
+# sa determinam pret total din abonamenete si bilete in fiecare luna si veniturile care ar fi trebuit sa fie de pe bilete, 
+#dar nu sunt
+# copiez b si fac modificari
+
+
+set.seed(2025)
+simulare_luna_cu_venituri <- function(n) {
+  calatori <- simulare_calatori(n)
+  
+  # Calculam statistici
+  media <- round(sum(calatori)/n)
+  minim <- min(calatori)
+  maxim <- max(calatori)
+  
+  tipuri_zile <- simulare_discreta(n, val= c(1,2,3), p = c(1/2,1/3,1/6))
+  zile_lejere <- sum(tipuri_zile == 1)
+  zile_normale <- sum(tipuri_zile == 2)
+  zile_aglomerate <- sum(tipuri_zile == 3)
+  lejere <- sum(calatori < 350)
+  normale <- sum(calatori>= 351 & calatori <= 670)
+  aglomerate <- sum(calatori > 670)
+  
+  procent_lejere <- round(lejere/n *100,2)
+  procent_normale<- round(normale/n *100,2)
+  procent_aglomerate <- round(aglomerate/n *100,2)
+  
+  # Calculam veniturile si pierderile
+  x_procent <- pasageri_x()  # Apelam functia care genereaza procentele
+  x_bilet <- x_procent[1]  # Procentul celor care cumpara bilete
+  x_abonament <- x_procent[2]  # Procentul celor care cumpara abonamente
+  
+  # Calculam numarul de pasageri pentru fiecare categorie
+  total_calatori <- sum(calatori)
+  #pt ca sunt pasageri, nr.nu poate fi cu virgula, deci rotunjim/aproximam
+  achizitioneaza_abonament <- round(x_abonament / 100 * total_calatori )
+  nu_achizitioneaza_abonament <- round(total_calatori - achizitioneaza_abonament)
+  
+  platesc_bilet <-round( x_bilet / 100 * nu_achizitioneaza_abonament)
+  nu_platesc_bilet <- round(nu_achizitioneaza_abonament - platesc_bilet)
+  
+  # Calculam veniturile
+  venituri_abonament <- achizitioneaza_abonament * pret_abonament
+  venituri_bilet <- platesc_bilet * pret_bilet
+  venituri_nerealizate <- nu_platesc_bilet * pret_bilet
+  
+  
+  # Returnam un vector cu rezultatele
+  return(c(Media = media, Min = minim, Max = maxim, 
+           Lejere = procent_lejere,
+           Normale = procent_normale, 
+           Aglomerate = procent_aglomerate,
+           Venit_Ab = venituri_abonament, 
+           Venit_Bilet = venituri_bilet,
+           Venit_Nerealizat = venituri_nerealizate))
+}
+
+# Numarul de zile din fiecare luna din 2024 (an bisect)
+zile_luni <- c(
+  ianuarie = 31, februarie = 29, martie = 31, aprilie = 30, mai = 31,
+  iunie = 30, iulie = 31, august = 31, septembrie = 30,
+  octombrie = 31, noiembrie = 30, decembrie = 31
+)
+
+# Dataframe pentru stocarea rezultatelor
+rezultate_cu_venituri <- data.frame(
+  Luna = names(zile_luni),
+  Media = numeric(length(zile_luni)),
+  Min = numeric(length(zile_luni)),
+  Max = numeric(length(zile_luni)),
+  Lejere = numeric(length(zile_luni)),
+  Normale = numeric(length(zile_luni)),
+  Aglomerate = numeric(length(zile_luni)),
+  Venit_Ab = numeric(length(zile_luni)),
+  Venit_B = numeric(length(zile_luni)),
+  Venit_Nerealizat = numeric(length(zile_luni))
+)
+
+# Iteram prin fiecare luna si simulam datele
+for (i in seq_along(zile_luni)) {
+  rezultate_cu_venituri[i, 2:10] <- simulare_luna_cu_venituri(zile_luni[i])
+}
+
+# Afisam rezultatele
+print(rezultate_cu_venituri)
+
+#################### d) 
+
+#mai intai simulam amenzile pentru o zi
+# cei posibil sa primeasca amenzi sunt cei care nu platit bilet sau abonament
+simulare_amenzi <- function(calatori,tip_zi){
+  amenda <- 50
+  plata_controlor <- 214
+  nr_controale <- 2
+  
+  # Stabilim cate calatori pe zi nu platesc bilet
+  x_procent <- pasageri_x()  # Apelam functia care genereaza procentele
+  x_bilet <- x_procent[1]  # Procentul celor care cumpara bilete
+  x_abonament <- x_procent[2]  # Procentul celor care cumpara abonamente
+  
+  achizitioneaza_abonament <- round(x_abonament / 100 * calatori )
+  nu_achizitioneaza_abonament <- round(calatori - achizitioneaza_abonament)
+  
+  platesc_bilet <-round( x_bilet / 100 * nu_achizitioneaza_abonament)
+  nu_platesc_bilet <- round(nu_achizitioneaza_abonament - platesc_bilet)
+  
+  # Generam nr de amenzi
+  amenzi <- 0
+  
+  for (nr in 1:nr_controale){
+    nr_verificari <- 0
+    # geneream amenzile in functie de tipul zilei
+    if (tip_zi == 1){
+      nr_pasageri_verif <- sample(2:11,1) #nr aleator intre 2 si 11
+      i <- 1
+      while (i <= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 3) break # se opeste dupa 3 amenzi
+        }
+      }
+    } else if(tip_zi == 2){
+      nr_pasageri_verif <- calatori
+      i <- 1
+      while(i <= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 5) break # se opeste dupa 5 amenzi
+        }
+      }
+    } else if(tip_zi == 3){
+      nr_pasageri_verif <- sample(3:5,1)
+      i <- 1
+      while (i<= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 1) break # se opeste dupa 5 amenzi
+        }
+      }
+    }
+  }
+  
+  # pierderea pe neplata biletelor pe zi
+  venituri_pierdute <- nu_platesc_bilet * pret_bilet  # Pretul biletului este 3 lei
+  print(venituri_pierdute)
+  
+  #costuri controlor
+  plata_control_zi <- plata_controlor * nr_controale
+  
+  # profitul din amenzi vs pierderi din neplata biletelor
+  profit_amenzi_zi <- amenzi - venituri_pierdute - plata_control_zi
+  
+  
+  # Returnam rezultatele
+  return(c(amenzi,venituri_pierdute,plata_control_zi,profit_amenzi_zi))
+}
+#exemplu
+simulare_zi_lejera <- simulare_amenzi(calatori =243,tip_zi = 1)
+
+# simulam amenzile pe luna:
+
+simulare_amenzi_luna <- function(n) {
+  calatori <- simulare_calatori(n)
+  
+  tipuri_zile <- simulare_discreta(n, val= c(1,2,3), p = c(1/2,1/3,1/6))
+  
+  # simulare amenzi pe luna
+  i <- 1
+  venituri_amenzi_pe_luna <- 0
+  venituri_pierdute_pe_zi <- 0
+  plata_control_pe_luna <- 0
+  profit_amenzi_pe_zi <- 0
+  zile_profit <- 0
+  while (i <= n){
+    simulare_amenzi_pe_zi <- simulare_amenzi(calatori = calatori[i],tip_zi =tipuri_zile[i])
+    venituri_amenzi_pe_luna <- venituri_amenzi_pe_luna + simulare_amenzi_pe_zi[1]
+    venituri_pierdute_pe_zi <- venituri_pierdute_pe_zi + simulare_amenzi_pe_zi[2]
+    plata_control_pe_luna <- plata_control_pe_luna + simulare_amenzi_pe_zi[3]
+    profit_amenzi_pe_zi <- profit_amenzi_pe_zi + simulare_amenzi_pe_zi[4]
+    if (profit_amenzi_pe_zi > 0){
+      zile_profit <-  zile_profit + 1
+    }
+    i <- i +1
+  }
+  
+  profit_amenzi_pe_luna <- venituri_amenzi_pe_luna - venituri_pierdute_pe_zi - plata_control_pe_luna
+  
+  
+  
+  # Returnam un vector cu rezultatele
+  return(c(Venit_Amenzi = venituri_amenzi_pe_luna,
+           Profit = profit_amenzi_pe_luna,
+           Zile_Cu_Profit = zile_profit))
+}
+
+# Numarul de zile din fiecare luna din 2024 (an bisect)
+zile_luni_2025 <- c(
+  ianuarie = 31, februarie = 28, martie = 31, aprilie = 30, mai = 31,
+  iunie = 30, iulie = 31, august = 31, septembrie = 30,
+  octombrie = 31, noiembrie = 30, decembrie = 31
+)
+
+# Dataframe pentru stocarea rezultatelor
+rezultate_amenzi <- data.frame(
+  Luna = names(zile_luni_2025),
+  Venit_Amenzi = numeric(length(zile_luni_2025)),
+  Profit = numeric(length(zile_luni_2025)),
+  Zile_Cu_Profit = numeric(length(zile_luni_2025))
+)
+
+# Iteram prin fiecare luna si simulam datele
+for (i in seq_along(zile_luni_2025)) {
+  rezultate_amenzi[i, 2:4] <- simulare_amenzi_luna(zile_luni_2025[i])
+}
+
+# Afisam rezultatele
+print(rezultate_amenzi)
+
+
+#################### e) 
+#mai departe folosesc functia anterioara
+simulare_amenzi_fraudat <- function(calatori,tip_zi){
+  amenda <- 50
+  plata_controlor <- 214
+  nr_controale <- 3
+  
+  
+  # Stabilim cate calatori pe zi nu platesc bilet
+  x_procent <- pasageri_x()  # Apelam functia care genereaza procentele
+  x_bilet <- x_procent[1]  # Procentul celor care cumpara bilete
+  x_abonament <- x_procent[2]  # Procentul celor care cumpara abonamente
+  
+  achizitioneaza_abonament <- round(x_abonament / 100 * calatori )
+  nu_achizitioneaza_abonament <- round(calatori - achizitioneaza_abonament)
+  
+  platesc_bilet <-round( x_bilet / 100 * nu_achizitioneaza_abonament)
+  nu_platesc_bilet <- round(nu_achizitioneaza_abonament - platesc_bilet)
+  
+  # Generam nr de amenzi
+  amenzi <- 0
+  venit_pastrat <- 0
+  
+  for (nr in 1:nr_controale){
+    nr_verificari <- 0
+    medie_pastrat <- 0
+    # geneream amenzile in functie de tipul zilei
+    if (tip_zi == 1){
+      nr_pasageri_verif <- sample(2:11,1) #nr aleator intre 2 si 11
+      i <- 1
+      while (i <= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 3) break # se opeste dupa 3 amenzi
+        }
+      }
+    } else if(tip_zi == 2){
+      nr_pasageri_verif <- calatori
+      i <- 1
+      while(i <= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 5) break # se opeste dupa 5 amenzi
+        }
+      }
+    } else if(tip_zi == 3){
+      nr_pasageri_verif <- sample(3:5,1)
+      i <- 1
+      while (i<= nr_pasageri_verif){
+        if (runif(1) < 0.5){
+          amenzi <- amenzi + amenda
+          nr_verificari <- nr_verificari + 1
+          if (nr_verificari == 1) break # se opeste dupa 5 amenzi
+        }
+      }
+    }
+    medie_pastrat <- 30/100 * amenzi
+    venit_pastrat <- venit_pastrat + medie_pastrat
+  }
+  
+  # pierderea pe neplata biletelor pe zi
+  venituri_pierdute <- nu_platesc_bilet * pret_bilet  # Pretul biletului este 3 lei
+  print(venituri_pierdute)
+  
+  #costuri controlor
+  plata_control_zi <- plata_controlor * nr_controale
+  
+  # profitul din amenzi vs pierderi din neplata biletelor
+  profit_amenzi_zi <- amenzi - venituri_pierdute - plata_control_zi - venit_pastrat
+  
+  
+  # Returnam rezultatele
+  return(c(amenzi,venituri_pierdute,plata_control_zi,profit_amenzi_zi,venit_pastrat))
+}
+
+simulare_amenzi_luna_fraudat <- function(n) {
+  calatori <- simulare_calatori(n)
+  
+  tipuri_zile <- simulare_discreta(n, val= c(1,2,3), p = c(1/2,1/3,1/6))
+  
+  # simulare amenzi pe luna
+  i <- 1
+  venituri_amenzi_pe_luna <- 0
+  venituri_pierdute_pe_zi <- 0
+  plata_control_pe_luna <- 0
+  profit_amenzi_pe_zi <- 0
+  zile_profit <- 0
+  venit_pastrat_pe_zi <- 0
+  while (i <= n){
+    simulare_amenzi_pe_zi <- simulare_amenzi_fraudat(calatori = calatori[i],tip_zi =tipuri_zile[i])
+    venituri_amenzi_pe_luna <- venituri_amenzi_pe_luna + simulare_amenzi_pe_zi[1]
+    venituri_pierdute_pe_zi <- venituri_pierdute_pe_zi + simulare_amenzi_pe_zi[2]
+    plata_control_pe_luna <- plata_control_pe_luna + simulare_amenzi_pe_zi[3]
+    profit_amenzi_pe_zi <- profit_amenzi_pe_zi + simulare_amenzi_pe_zi[4]
+    venit_pastrat_pe_zi <- venit_pastrat_pe_zi + simulare_amenzi_pe_zi[5]
+    
+    if (profit_amenzi_pe_zi > 0){
+      zile_profit <-  zile_profit + 1
+    }
+    i <- i +1
+  }
+  
+  profit_amenzi_pe_luna <- venituri_amenzi_pe_luna - venituri_pierdute_pe_zi - plata_control_pe_luna - venit_pastrat_pe_zi
+  
+  
+  
+  # Returnam un vector cu rezultatele
+  return(c(Venit_Amenzi = venituri_amenzi_pe_luna,
+           Profit = profit_amenzi_pe_luna,
+           Zile_Cu_Profit = zile_profit,
+           Venit_neraportat = venit_pastrat_pe_zi))
+}
+
+
+# Numarul de zile din fiecare luna din 2024 (an bisect)
+zile_luni_2025 <- c(
+  ianuarie = 31, februarie = 28, martie = 31, aprilie = 30, mai = 31,
+  iunie = 30, iulie = 31, august = 31, septembrie = 30,
+  octombrie = 31, noiembrie = 30, decembrie = 31
+)
+
+# Dataframe pentru stocarea rezultatelor
+rezultate_frauda <- data.frame(
+  Luna = names(zile_luni_2025),
+  Venit_Amenzi = numeric(length(zile_luni_2025)),
+  Profit = numeric(length(zile_luni_2025)),
+  Zile_Cu_Profit = numeric(length(zile_luni_2025)),
+  Venit_neraportat = numeric(length(zile_luni_2025))
+)
+
+# Iteram prin fiecare luna si simulam datele
+for (i in seq_along(zile_luni_2025)) {
+  rezultate_frauda[i, 2:5] <- simulare_amenzi_luna_fraudat(zile_luni_2025[i])
+}
+
+# Afisam rezultatele
+print(rezultate_frauda)
+
+#Observam ca desi venitul pe amenzi este mai mare cu 3 controlori, faptul ca pentru fiecare control nu se 
+#declara 30%, profitul este mult mai mic
+
+
+#Ex 3
+#1) Calculati P(Zn <= x) pentru repartiile urmatoare stiind ca Zn = sqrt(n)*(sum(Xi)-media)/sigma:
+#X1,X2,...Xn i.i.d.
+# media = E[X1]
+# sigma = Var(X1)
+# X_bar = 1/n *sum(Xi)
+
+#Aplicand TLC pe Zn avem ca converge in distributie la N(0,1), i.e Zn -> N(0,1)(in distr),
+# deci folosim pnorm() pentru a calcula P(Zn <= x) in cadrul unei distributii normale standard
+
+
+##### Repartitia binomiala Xi ~ Bin(n,p)
+# media binomialei = n*p
+#varianta binomialei = n*p*(1-p)
+
+# Functie pentru simularea unei repartitii binomiale si calculul P(Zn <= x)
+simuleaza_binomiala <- function(n, p) {
+  media <-  n * p
+  sigma <- sqrt(n*p*(1-p))
+  
+  # Generarea de variabile aleatoare geometrice
+  X<- rbinom(n, size = n, prob = p)
+  cat("V.a binomiala X:", X, "\n\n")
+
+  X_bar <- mean(X)
+  cat("X_bar_geom:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_binom:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+# Exemplu de apel al functiei
+prob_binomiala <- simuleaza_binomiala(n = 100, p = 0.5)
+
+
+##### Repartitia geometrica: Xi ~ Geom(p)
+# media  = 1/p
+#varianta  = (1-p)/p^2
+simuleaza_geometrica <- function(n, p) {
+  media <- 1 / p
+  sigma <- sqrt((1 - p) / p^2)
+  
+  # Generarea de variabile aleatoare geometrice
+  X <- rgeom(n, prob = p)
+  cat("V.a geometrica X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_geom:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_geometrica:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_geometrica <- simuleaza_geometrica(n = 100, p = 0.3)
+
+##### Repartitia poisson: Xi ~ Poisson(lambda)
+# media  = lambda
+#varianta  = lambda
+simuleaza_poisson <- function(n, lambda) {
+  media <- lambda
+  sigma <- sqrt(lambda)
+  
+  # Generarea de variabile aleatoare Poisson
+  X <- rpois(n, lambda = lambda)
+  cat("V.a poisson X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_pois:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_poisson:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_poisson <- simuleaza_poisson(n = 100, lambda = 1)
+
+  
+##### Repartitia uniforma pe caz discret: Xi ~ Unif{a,....,b}
+# media  = a+b/2
+#varianta  = ((b-a+1)^2 -1)/12
+simuleaza_uniforma_discreta <- function(n, a, b) {
+  media <- (a + b) / 2
+  sigma <- sqrt(((b - a + 1)^2 - 1) / 12)
+  
+  # Generarea de variabile aleatoare uniforme discrete
+  X <- sample(a:b, n, replace = TRUE)
+  cat("V.a uniforme discrete X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_unif:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_uniforma_discreta:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_unif_discreta <- simuleaza_uniforma_discreta(n = 100, a = 1, b = 6)
+
+##### Repartitia uniforma pe caz continuu: Xi ~ Unif((a,b))
+# media  = a+b/2
+#varianta  = (b-a)^2/12
+simuleaza_uniforma_continua <- function(n, a, b) {
+  media <- (a + b) / 2
+  sigma <- sqrt((b-a)^2/12)
+  
+  # Generarea de variabile aleatoare uniforme continue
+  X <- runif(n,min=a,max=b)
+  cat("V.a uniforme continue X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_unif:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_uniforma_continua:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_unif_cont <- simuleaza_uniforma_continua(n = 100, a = 1, b = 6)
+
+##### Repartitia exponentiala: Xi ~ Exp(lambda)
+# media  = 1/lambda
+#varianta  = 1/lambda^2
+simuleaza_exponentiala<- function(n, lambda) {
+  media <- 1/lambda
+  sigma <- sqrt(1/lambda^2)
+  
+  # Generarea de variabile aleatoare exponentiale
+  X <- rexp(n,rate = lambda)
+  cat("V.a exponentiale X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_exp:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_exponentiala:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_exponentiala<- simuleaza_exponentiala(n = 100, lambda = 0.4)
+
+
+##### Repartitia gamma: Xi ~ Gamma(alpha,beta)
+# media  = alpha*beta
+#varianta  = alpha*beta^2
+simuleaza_gamma<- function(n, alpha,beta) {
+  media <- alpha*beta
+  sigma <- sqrt(alpha*beta^2)
+  
+  # Generarea de variabile aleatoare gamma
+  X <- rgamma(n,shape = alpha, rate = beta)
+  cat("V.a gamma X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_gamma:", X_bar, "\n\n")
+  
+  ## Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_gamma:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_Gamma<- simuleaza_gamma(n = 100, alpha = 2, beta =1)
+
+
+##### Repartitia beta: Xi ~ Beta(alpha,beta)
+# media  = alpha/(alpha + beta)
+#varianta  = alpha*beta/((alpha+beta)^2*(alpha+beta+1))
+simuleaza_beta<- function(n, alpha,beta) {
+  media <- alpha/(alpha + beta)
+  sigma <- sqrt(alpha*beta/((alpha+beta)^2*(alpha+beta+1)))
+  
+  # Generarea de variabile aleatoare Beta
+  X <- rbeta(n,shape1 = alpha, shape2 = beta)
+  cat("V.a beta X:", X, "\n\n")
+  
+  X_bar <- mean(X)
+  cat("X_bar_beta:", X_bar, "\n\n")
+  
+  # Calculul lui Zi (pt fiecare x)
+  Zi <- sqrt(n) * (X - media) / sigma
+  cat("Zi_beta:", Zi, "\n\n")
+  
+  Zn <- sqrt(n) * (X_bar - media) / sigma
+  # Calculul probabilitatii P(Zn <= x)
+  
+  prob_zn <- pnorm(Zn)
+  cat("P(Zn <= x):", prob_zn, "\n\n")
+  prob_zi <- pnorm(Zi)
+  cat("P(Zi <= x):", prob_zi, "\n\n")
+  
+  # Returnare
+  return(Zi)
+}
+
+prob_beta<- simuleaza_beta(n = 100, alpha = 2, beta =5)
+
+
+########## 2) Reprezentati grafic functiile obtinute la 1).
+Zi_binomiala <- prob_binomiala
+hist(Zi_binomiala, main = "Distributie Binomiala Standarizata", 
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_binomiala), col = "magenta", lwd = 2)
+
+
+Zi_geometrica <- prob_geometrica
+hist(Zi_geometrica, main = "Distributie Geometrica Standarizata", 
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_geometrica), col = "magenta", lwd = 2)
+
+
+Zi_poisson<- prob_poisson
+hist(Zi_poisson, main = "Distributie Poisson Standarizata", breaks = "Scott",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_poisson), col = "magenta", lwd = 2)
+
+
+Zi_unif_discret <- prob_unif_discreta
+hist(Zi_unif_discret, main = "Distributie Uniforma Discreta Standarizata",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_unif_discret), col = "magenta", lwd = 2)
+
+
+Zi_unif_continua<- prob_unif_cont
+hist(Zi_unif_continua, main = "Distributie Uniforma Continua Standarizata",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_unif_continua), col = "magenta", lwd = 2)
+
+
+Zi_exponentiala <- prob_exponentiala
+hist(Zi_exponentiala, main = "Distributie Exponentiala Standarizata",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_exponentiala), col = "magenta", lwd = 2)
+
+
+Zi_gamma <- prob_Gamma
+hist(Zi_gamma, main = "Distributie Gamma Standarizata",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_gamma), col = "magenta", lwd = 2)
+
+Zi_beta <- prob_beta
+hist(Zi_beta, main = "Distributie Beta Standarizata",
+     xlab = "Zi", probability = TRUE)
+lines(density(Zi_beta), col = "magenta", lwd = 2)
+
+
+#3)
+#momentul de ordinul trei este legat de modul in care valorile unei distributii sunt distribuite in jurul mediei sale.
+# Pt o v.a X, momentul de ordin 3 este definit ca: μ3 = E[(X-μ)^3]
+#Simetria distributiei: Daca momentul de ordinul trei este 0, distributia este simetrica in jurul mediei (de exemplu, distributia normala).
+#Asimetria: Daca momentul de ordinul trei este pozitiv (adica  μ3>0), distributia are o coada mai lunga pe partea dreapta (distributie asimetrica pozitiv sau dreapta).
+#           Daca momentul de ordinul trei este negativ (adica μ3<0), distributia are o coada mai lunga pe partea stanga (distributie asimetrica negativa sau stanga).
+# Functie pentru calculul diferentei absolute intre P(Zn <= x) si functia de repartitie a normalei standard
+
+# Functia supremului Berry-Esseen
+berry_esseen_sup <- function(n, dist_fun, medie_x, var_x) {
+  x <- dist_fun(n)  # Generam n valori din distributie
+  x_bar <- mean(x)
+  sigma_x <- sqrt(var_x)  # Deviatia standard teoretica
+  
+  Z_n <- (x_bar - medie_x) / (sigma_x / sqrt(n))  # Standardizare
+  F_n <- ecdf(Z_n)  # Functia de repartitie empirica
+  
+  supremum_func <- function(x) {
+    abs(F_n(x) - pnorm(x))
+  }
+  
+  rezultat_sup <- optimize(supremum_func, interval = c(-3, 3), maximum = TRUE)
+  return(rezultat_sup$objective)
+}
+
+# Lista de distributii discrete si continue cu parametrii lor
+distributii <- list(
+  list(name = "Binomiala(10, 0.5)", dist_fun = function(n) rbinom(n, size = 10, prob = 0.5),
+       param = list(X = "binomiala", n = 10, p = 0.5)),
+  
+  list(name = "Geometrica(0.3)", dist_fun = function(n) rgeom(n, prob = 0.3),
+       param = list(X = "geometrica", p = 0.3)),
+  
+  list(name = "Poisson(λ=4)", dist_fun = function(n) rpois(n, lambda = 4),
+       param = list(X = "poisson", lambda = 4)),
+  
+  list(name = "Uniform Discreta(0,10)", dist_fun = function(n) sample(0:10, n, replace = TRUE),
+       param = list(X = "uniforma", caz = "discret", a = 0, b = 10)),
+  
+  list(name = "Uniform(0,1)", dist_fun = function(n) runif(n, 0, 1),
+       param = list(X = "uniforma", caz = "continuu", a = 0, b = 1)),
+  
+  list(name = "Exponentiala(1)", dist_fun = function(n) rexp(n, rate = 1),
+       param = list(X = "exponentiala", lambda = 1)),
+  
+  list(name = "Gamma(2,1)", dist_fun = function(n) rgamma(n, shape = 2, rate = 1),
+       param = list(X = "gamma", alpha = 2, beta = 1)),
+  
+  list(name = "Beta(2,5)", dist_fun = function(n) rbeta(n, shape1 = 2, shape2 = 5),
+       param = list(X = "beta", alpha = 2, beta = 5))
+)
+
+n <- 100 
+rezultate_sup <- data.frame(Distributii = character(), Supremum = numeric(), stringsAsFactors = FALSE)  
+
+# Calculam supremul pentru fiecare distributie
+for (dist in distributii) {
+  params <- dist$param
+  medie_var <- do.call(calcul_medie, params)  # Calculam media si varianta
+  
+  
+  supremum <- berry_esseen_sup(n, dist$dist_fun, medie_var["media"], medie_var["varianta"])
+  
+  rezultate_sup <- rbind(rezultate_sup, data.frame(Distributii = dist$name, Supremum = supremum))  
+}
+
+# Afisare rezultate
+print(rezultate_sup)
+
+
+#4 Functie care calculeaza media si varianta unei distributii. Tipul repartitiei este 
+#trimis prin denumire sau functie de masa/densitate
+#Facem doua functii, una in care sa calcul media si varianta repartitiei dupa denumire 
+#si alta in care calculam dupa functie pt caz cont, si discret
+
+
+###################################################
+# Functia calcul_medie 
+calcul_medie <- function(X, caz = NULL, n = NULL, p = NULL, 
+                         a = NULL, b = NULL, lambda = NULL, 
+                         alpha = NULL, beta = NULL, miu = NULL, sigma2 = NULL, 
+                         x = NULL, p_val = NULL) {
+  # Verificam daca X este un string (denumirea distributiei)
+  if (is.character(X)) {
+    if (X == "binomiala") {
+      media <- n * p
+      varianta <- n * p * (1 - p)  
+    } else if (X == "geometrica") {
+      media <- 1 / p
+      varianta <- (1 - p) / p^2
+    } else if (X == "poisson") {
+      media <- lambda
+      varianta <- lambda
+    } else if (X == "uniforma" && caz == "discret") {
+      media <- (a + b) / 2
+      varianta <- ((b - a + 1)^2 - 1) / 12
+    } else if (X == "uniforma" && caz == "continuu") {
+      media <- (a + b) / 2
+      varianta <- (b - a)^2 / 12
+    } else if (X == "normala") {
+      media <- miu
+      varianta <- sigma2
+    } else if (X == "exponentiala") {
+      media <- 1 / lambda
+      varianta <- 1 / lambda^2
+    } else if (X == "gamma") {
+      media <- alpha * beta
+      varianta <- alpha * beta^2
+    } else if (X == "beta") {
+      media <- alpha / (alpha + beta)
+      varianta <- alpha * beta / ((alpha + beta)^2 * (alpha + beta + 1))
+    } else {
+      stop("Distributia specificata nu este recunoscuta.")
+    }
+  }
+  # Verificam daca X este o functie
+  else if (is.function(X)) {
+    if (caz == "continuu") {
+      media <- integrate(function(x) x * X(x), lower = -Inf, upper = Inf)$value
+      varianta <- integrate(function(x) (x - media)^2 * X(x), lower = -Inf, upper = Inf)$value
+    } else if (caz == "discret") {
+      # Calculeaza media si varianta pentru cazuri discrete
+      if (is.null(x) || is.null(p_val)) {
+        stop("Pentru cazul discret, trebuie sa oferiti vectorii x si p_val.")
+      }
+      media <- sum(x * p_val)
+      varianta <- sum((x - media)^2 * p_val)
+    } else {
+      stop("Trebuie specificat daca cazul este continuu sau discret.")
+    }
+  } else {
+    stop("Trebuie specificata fie denumirea distributiei, fie o functie X.")
+  }
+  
+  # Returnam media si varianta
+  return(c(media = media, varianta = varianta))
+}
+
+
+# Exemple de utilizare:
+
+# 1. **Pentru denumire - Distributie binomiala:**
+# Parametrii pentru distributia binomiala
+n <- 10  # Numarul de incercari
+p <- 0.3  # Probabilitatea de succes
+
+# Calculam media si varianta
+rezultat_binomial <- calcul_medie("binomiala", n = n, p = p)
+print("Rezultate pentru distributia binomiala (prin denumire):")
+print(rezultat_binomial)
+
+
+
+##2. Parametrii pentru distributia exponentiala
+# Parametrii pentru distributia exponentiala
+lambda <- 1  # Rata
+
+# Functia de densitate pentru distributia exponentiala
+X_exponential <- function(x) {
+  ifelse(x >= 0, lambda * exp(-lambda * x), 0)
+}
+
+# Calculam media si varianta
+rezultat_exponential <- calcul_medie(X_exponential, caz = "continuu")
+print("Rezultate pentru distributia exponentiala (prin functie, caz continuu):")
+print(rezultat_exponential)
+
